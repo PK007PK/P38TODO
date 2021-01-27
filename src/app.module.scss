@@ -1,0 +1,11 @@
+.app {
+  color: red;
+}
+
+.red {
+  color: red;
+  
+  &__body {
+    font-size: 30px;
+  }
+}
