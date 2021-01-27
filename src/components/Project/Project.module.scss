@@ -1,0 +1,17 @@
+.project {
+    color: "blue";
+    border: 1px solid black;
+    list-style: none;
+}
+
+.nameBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buttonsBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
