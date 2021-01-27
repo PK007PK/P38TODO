@@ -1,10 +1,10 @@
-import "./App.css";
+import { red } from "./app.module.scss";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>todo app</h1>
+    <div className="app">
+      <header className="app-header">
+        <h1 className={red}>todo app</h1>
       </header>
     </div>
   );
