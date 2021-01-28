@@ -4,8 +4,8 @@ const ProjectList = ({
   list,
   deleteProject,
   renameProject,
-  decrase,
-  incrase,
+  handleChangeProjectValue,
+  handleChangeProjectPosition,
 }) => {
   return (
     <>
@@ -15,8 +15,17 @@ const ProjectList = ({
           <Project
             key={index}
             name={item.name}
+            value={item.value}
             deleteProject={deleteProject.bind(this, index)}
             renameProject={renameProject.bind(this, index)}
+            handleChangeProjectValue={handleChangeProjectValue.bind(
+              this,
+              index
+            )}
+            handleChangeProjectPosition={handleChangeProjectPosition.bind(
+              this,
+              index
+            )}
             // decrase={decrase.bind(this, index)}
             // incrase={incrase.bind(this, index)}
           />
