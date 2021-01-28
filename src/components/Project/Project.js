@@ -5,8 +5,10 @@ import styles from "./Project.module.scss";
 const Project = ({
   name,
   value,
+  id,
+  active,
   deleteProject,
-  renameProject,
+  handleChangeProjectName,
   handleChangeProjectValue,
   handleChangeProjectPosition,
 }) => {
@@ -21,27 +23,23 @@ const Project = ({
   const handlePanelActive = () => setPanelIsActive((prevState) => !prevState);
 
   return (
-    <li className={styles.project}>
+    <li
+      className={panelIsActive ? styles.projectActive : styles.project}
+      onClick={!panelIsActive && handlePanelActive}
+    >
       <div className={styles.nameBlock}>
-        <h3>Nazwa: {name}</h3>
-        <p>wartość: {value}</p>
-        <div className={styles.buttonsBlock}>
-          <button onClick={handlePanelActive}>Edit</button>{" "}
-          <button onClick={deleteProject}>Usuń</button>
-          <button onClick={handleChangeProjectPosition.bind(this, "up")}>
-            up
-          </button>
-          <button onClick={handleChangeProjectPosition.bind(this, "down")}>
-            down
-          </button>
-        </div>
+        <h3 className={styles.title}>{name}</h3>
+        {panelIsActive && <button onClick={handlePanelActive}>-</button>}
       </div>
       {panelIsActive && (
-        <div>
-          <input value={projectName} onChange={handleChange}></input>
-          <button onClick={renameProject.bind(this, projectName)}>
-            Change name
-          </button>
+        <div className={styles.detailsBlock}>
+          <button onClick={deleteProject}>Usuń</button>
+          <div>
+            <input value={projectName} onChange={handleChange}></input>
+            <button onClick={handleChangeProjectName.bind(this, projectName)}>
+              Change name
+            </button>
+          </div>
         </div>
       )}
     </li>
