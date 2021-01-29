@@ -7,17 +7,70 @@ import { inArrayPositionChange } from "./utils/inArrayPositionChange";
 class AddRemoveListItem extends React.Component {
   state = {
     project: [
-      { id: 0, name: "aaa", value: 1, active: false, phase: "iideas" },
-      { id: 1, name: "bbb", value: 2, active: false, phase: "ideas" },
-      { id: 2, name: "ccc", value: 3, active: false, phase: "ideas" },
-      { id: 3, name: "ddd", value: 4, active: false, phase: "ideas" },
-      { id: 4, name: "eee", value: 4, active: false, phase: "toDo" },
+      {
+        id: 0,
+        name: "Dodanie aplikacji todo do portfolio",
+        value: 1,
+        active: false,
+        phase: "iideas",
+      },
+      {
+        id: 1,
+        name: "Zmodyfikowanie portfolio aby pokazywać drobne aktywności",
+        value: 2,
+        active: false,
+        phase: "ideas",
+      },
+      {
+        id: 2,
+        name: "Przerobić stronę CV w stronę ogólnego bloga",
+        value: 3,
+        active: false,
+        phase: "ideas",
+      },
+      {
+        id: 3,
+        name: "Przygotować arkusz ogólny pod prognozy",
+        value: 4,
+        active: false,
+        phase: "ideas",
+      },
+      // {
+      //   id: 0,
+      //   name: "000",
+      //   value: 1,
+      //   active: false,
+      //   phase: "iideas",
+      // },
+      // {
+      //   id: 1,
+      //   name: "111",
+      //   value: 2,
+      //   active: false,
+      //   phase: "ideas",
+      // },
+      // {
+      //   id: 2,
+      //   name: "222",
+      //   value: 3,
+      //   active: false,
+      //   phase: "ideas",
+      // },
+      // {
+      //   id: 3,
+      //   name: "333",
+      //   value: 4,
+      //   active: false,
+      //   phase: "ideas",
+      // },
     ],
     newProject: { name: "" },
     currentId: 10,
     handleChangeProjectName: (id, name) =>
       this.handleChangeProjectName(id, name),
     handleDelete: (id) => this.handleDelete(id),
+    handleChangeProjectPosition: (arr, id, direction) =>
+      this.handleChangeProjectPosition(arr, id, direction),
   };
 
   handleChangeProjectName = (id, name) => {
@@ -29,9 +82,16 @@ class AddRemoveListItem extends React.Component {
   };
 
   handleDelete = (id) => {
-    const newProjectBase = this.state.project.filter((ele) => ele.id != id);
+    // const newProjectBase = this.state.project.filter((ele) => ele.id != id);
+    const newProjectBase = this.state.project;
+    newProjectBase.splice(id, 1);
     this.setState({ project: newProjectBase });
-    console.log(newProjectBase);
+  };
+
+  handleChangeProjectPosition = (arr, index, direction) => {
+    console.log(arr[index].name, "index: ", index, "Direction: ", direction);
+    const newProjectOrder = inArrayPositionChange(arr, index, direction);
+    this.setState({ project: newProjectOrder });
   };
 
   handleInputChange = (e) =>
@@ -60,15 +120,6 @@ class AddRemoveListItem extends React.Component {
     // this.setState({ project: table });
   };
 
-  handleChangeProjectPosition = (index, direction) => {
-    const newProjectOrder = this.inArrayPositionChange(
-      this.state.project,
-      index,
-      direction
-    );
-    this.setState({ project: newProjectOrder });
-  };
-
   render() {
     return (
       <AppContext.Provider value={this.state}>
@@ -80,7 +131,6 @@ class AddRemoveListItem extends React.Component {
         />
         <div style={{ display: "flex" }}>
           <ProjectList
-            phase="Main targets"
             handleChangeProjectName={this.handleChangeProjectName}
             list={this.state.project}
             deleteProject={this.handleDelete}
