@@ -1,7 +1,9 @@
 import React from "react";
+import AppContext from "./context";
 
 import AddProjectPanel from "./components/AddProjectPanel/AddProjectPanel";
 import ProjectList from "./components/ProjectList/ProjectsList";
+import { inArrayPositionChange } from "./utils/inArrayPositionChange";
 class AddRemoveListItem extends React.Component {
   state = {
     project: [
@@ -16,15 +18,9 @@ class AddRemoveListItem extends React.Component {
       { id: 8, name: "iii", value: 4, active: false, phase: "inProgress" },
       { id: 9, name: "jjj", value: 4, active: false, phase: "inProgress" },
     ],
-    newProject: [{}],
+    newProject: { name: "" },
     currentId: 10,
   };
-
-  // handleDelete = (id) => {
-  //   let table = this.state.project;
-  //   table.splice(id, 1);
-  //   this.setState({ project: table });
-  // };
 
   handleDelete = (id) => {
     const newProjectBase = this.state.project.filter((ele) => ele.id != id);
@@ -48,7 +44,7 @@ class AddRemoveListItem extends React.Component {
   handleAddItem = () =>
     this.setState((prevState) => ({
       project: prevState.project.concat(this.state.newProject),
-      newProject: [{}],
+      newProject: { name: "" },
       currentId: prevState.currentId + 1,
     }));
 
@@ -56,7 +52,6 @@ class AddRemoveListItem extends React.Component {
     console.log("id: ", id, "name: ", name);
     const projectBase = this.state.project;
     const foundIndex = projectBase.findIndex((x) => x.id == id);
-    console.log(foundIndex);
     projectBase[foundIndex].name = name;
     this.setState({ project: projectBase });
   };
@@ -67,12 +62,21 @@ class AddRemoveListItem extends React.Component {
     // this.setState({ project: table });
   };
 
+  handleChangeProjectPosition = (index, direction) => {
+    const newProjectOrder = this.inArrayPositionChange(
+      this.state.project,
+      index,
+      direction
+    );
+    this.setState({ project: newProjectOrder });
+  };
+
   render() {
     return (
-      <>
+      <AppContext.Provider value={this.state}>
         <h1>Todo APP</h1>
         <AddProjectPanel
-          inputValue={this.state.inputValue}
+          inputValue={this.state.newProject.name}
           inputChange={this.handleInputChange}
           addProject={this.handleAddItem}
         />
@@ -102,7 +106,7 @@ class AddRemoveListItem extends React.Component {
             handleChangeProjectPosition={this.handleChangeProjectPosition}
           /> */}
         </div>
-      </>
+      </AppContext.Provider>
     );
   }
 }

@@ -8,19 +8,11 @@ const ProjectList = ({
   deleteProject,
   handleChangeProjectName,
   handleChangeProjectValue,
-  // handleChangeProjectPosition,
+  handleChangeProjectPosition,
 }) => {
   const [localProjectList, setLocalProjectList] = useState(
     list.filter((item) => item.phase === phase)
   );
-  const handleChangeProjectPosition = (index, direction) => {
-    const newProjectOrder = inArrayPositionChange(
-      localProjectList,
-      index,
-      direction
-    );
-    setLocalProjectList(newProjectOrder);
-  };
 
   return (
     <div style={{ flexGrow: 1, margin: "0 50px" }}>
@@ -34,10 +26,7 @@ const ProjectList = ({
             active={item.active}
             value={item.value}
             deleteProject={deleteProject.bind(this, item.id)}
-            handleChangeProjectName={handleChangeProjectName.bind(
-              this,
-              item.id
-            )}
+            handleChangeProjectName={handleChangeProjectName.bind(this, index)}
             handleChangeProjectValue={handleChangeProjectValue.bind(
               this,
               index
