@@ -26,11 +26,6 @@ const ProjectList = ({
             active={item.active}
             value={item.value}
             deleteProject={deleteProject.bind(this, item.id)}
-            handleChangeProjectName={handleChangeProjectName.bind(this, index)}
-            handleChangeProjectValue={handleChangeProjectValue.bind(
-              this,
-              index
-            )}
             handleChangeProjectPosition={handleChangeProjectPosition.bind(
               this,
               index

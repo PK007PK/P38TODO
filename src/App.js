@@ -12,14 +12,20 @@ class AddRemoveListItem extends React.Component {
       { id: 2, name: "ccc", value: 3, active: false, phase: "ideas" },
       { id: 3, name: "ddd", value: 4, active: false, phase: "ideas" },
       { id: 4, name: "eee", value: 4, active: false, phase: "toDo" },
-      { id: 5, name: "fff", value: 4, active: false, phase: "toDo" },
-      { id: 6, name: "ggg", value: 4, active: false, phase: "toDo" },
-      { id: 7, name: "hhh", value: 4, active: false, phase: "inProgress" },
-      { id: 8, name: "iii", value: 4, active: false, phase: "inProgress" },
-      { id: 9, name: "jjj", value: 4, active: false, phase: "inProgress" },
     ],
     newProject: { name: "" },
     currentId: 10,
+    handleChangeProjectName: (id, name) =>
+      this.handleChangeProjectName(id, name),
+    handleDelete: (id) => this.handleDelete(id),
+  };
+
+  handleChangeProjectName = (id, name) => {
+    console.log("id: ", id, "name: ", name);
+    const projectBase = this.state.project;
+    const foundIndex = projectBase.findIndex((x) => x.id == id);
+    projectBase[foundIndex].name = name;
+    this.setState({ project: projectBase });
   };
 
   handleDelete = (id) => {
@@ -48,14 +54,6 @@ class AddRemoveListItem extends React.Component {
       currentId: prevState.currentId + 1,
     }));
 
-  handleChangeProjectName = (id, name) => {
-    console.log("id: ", id, "name: ", name);
-    const projectBase = this.state.project;
-    const foundIndex = projectBase.findIndex((x) => x.id == id);
-    projectBase[foundIndex].name = name;
-    this.setState({ project: projectBase });
-  };
-
   handleChangeProjectValue = (id, delta) => {
     // let table = this.state.project;
     // table[id] = { ...table[id], value: table[id].value + delta };
@@ -82,29 +80,13 @@ class AddRemoveListItem extends React.Component {
         />
         <div style={{ display: "flex" }}>
           <ProjectList
-            phase="ideas"
+            phase="Main targets"
             handleChangeProjectName={this.handleChangeProjectName}
             list={this.state.project}
             deleteProject={this.handleDelete}
             handleChangeProjectValue={this.handleChangeProjectValue}
             handleChangeProjectPosition={this.handleChangeProjectPosition}
           />
-          {/* <ProjectList
-            phase="toDo"
-            handleChangeProjectName={this.handleChangeProjectName}
-            list={this.state.project}
-            deleteProject={this.handleDelete}
-            handleChangeProjectValue={this.handleChangeProjectValue}
-            handleChangeProjectPosition={this.handleChangeProjectPosition}
-          />
-          <ProjectList
-            phase="inProgress"
-            handleChangeProjectName={this.handleChangeProjectName}
-            list={this.state.project}
-            deleteProject={this.handleDelete}
-            handleChangeProjectValue={this.handleChangeProjectValue}
-            handleChangeProjectPosition={this.handleChangeProjectPosition}
-          /> */}
         </div>
       </AppContext.Provider>
     );

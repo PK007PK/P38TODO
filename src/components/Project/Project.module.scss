@@ -1,4 +1,5 @@
 .project {
+    position: relative;
     width: 330px;
     color: "blue";
     list-style: none;
@@ -8,9 +9,11 @@
     box-shadow:  0px 1px 3px 0px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14),
     0px 2px 1px -1px rgba(0, 0, 0, 0.12); 
+    cursor: pointer;
 }
 
 .projectActive {
+    position: relative;
     width: 330px;
     background-color: lightgray; 
     list-style: none;
@@ -19,6 +22,10 @@
     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14),
     0px 1px 10px 0px rgba(0, 0, 0, 0.12); 
+
+    .upDownBtn {
+        background-color: lightgray;
+    }
 }
 
 .nameBlock {
@@ -40,4 +47,27 @@
 
 .detailsBlock {
     margin-top: 20px;
+}
+
+.upDownBlock {
+    position: absolute;
+    text-align: right;
+    bottom: -10px;
+    right: 10px;
+}
+
+.upDownBtn {
+    font-size: 10px;
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 0px 15px 4px 15px;
+    border-top: none;
+    cursor: pointer;
+    &:first-of-type {
+        border-radius: 0 0 0 5px;
+    }
+    &:last-of-type {
+        border-radius: 0 0 5px 0;
+
+    }
 }
