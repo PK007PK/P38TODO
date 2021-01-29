@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
+import AppContext from "../../context";
 import style from "./AddProject.module.scss";
+import ButtonHuge from "../ButtonHuge/ButtonHuge";
 
-const AddProjectPanel = ({ inputValue, inputChange, addProject }) => {
+const AddProjectPanel = () => {
   return (
-    <>
-      {/* <h2>Enter list item:</h2>
-      <div>
-        <input type="text" value={inputValue} onChange={inputChange} />
-        <button onClick={addProject}>Add item</button>
-      </div> */}
-      <button className={style.addButton}>+</button>
-    </>
+    <AppContext.Consumer>
+      {({ switchNewProjectPanel }) => (
+        <div className={style.panel}>
+          <div className={style.card}>
+            <ButtonHuge
+              onClick={switchNewProjectPanel}
+              className={style.switchButton}
+            >
+              -
+            </ButtonHuge>
+            <h3>Add new project</h3>
+          </div>
+        </div>
+      )}
+    </AppContext.Consumer>
   );
 };
 

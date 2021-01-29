@@ -1,0 +1,28 @@
+.addButton {
+    border: 1px solid lightgray;
+    font-size: 70px;
+    width: 80px;
+    height: 80px;
+    border-radius: 100px;
+    background-color: lightgreen;
+    color: white;
+    box-shadow:  0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 2px 1px -1px rgba(0, 0, 0, 0.12); 
+    transition: 0.2s;
+
+
+    &:focus, &:hover {
+       outline: none;
+       background-color: lightgray;
+       box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+       0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+       0px 1px 10px 0px rgba(0, 0, 0, 0.12);  
+    }
+    &:active {
+        box-shadow: none;
+        background-color: white;
+        color: lightgreen;
+ 
+    }
+}

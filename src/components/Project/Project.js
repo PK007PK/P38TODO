@@ -6,22 +6,17 @@ const Project = ({ index, name }) => {
   const [projectName, changeName] = useState(name);
   const handleChange = (e) => changeName(e.target.value);
 
-  const [projectValue, changeValue] = useState(name);
-  const handleValue = (direction) =>
-    changeValue((prevState) => prevState + direction);
-
   const [panelIsActive, setPanelIsActive] = useState(false);
   const handlePanelActive = () => setPanelIsActive((prevState) => !prevState);
-  let tabindex = panelIsActive ? { tabIndex: -1 } : {};
 
   const id = index;
 
   return (
     <AppContext.Consumer>
       {({
-        handleChangeProjectName,
-        handleDelete,
-        handleChangeProjectPosition,
+        changeProjectName,
+        deleteProject,
+        changeProjectPosition,
         project,
       }) => {
         const position = project.findIndex(function (item) {
@@ -41,17 +36,13 @@ const Project = ({ index, name }) => {
               </div>
               {panelIsActive && (
                 <div className={styles.detailsBlock}>
-                  <button onClick={handleDelete.bind(this, index)}>
+                  <button onClick={deleteProject.bind(this, index)}>
                     {index} Usuń
                   </button>
                   <div>
                     <input value={projectName} onChange={handleChange}></input>
                     <button
-                      onClick={handleChangeProjectName.bind(
-                        this,
-                        id,
-                        projectName
-                      )}
+                      onClick={changeProjectName.bind(this, id, projectName)}
                     >
                       Change name
                     </button>
@@ -62,7 +53,7 @@ const Project = ({ index, name }) => {
             <div className={styles.upDownBlock}>
               <button
                 className={styles.upDownBtn}
-                onClick={handleChangeProjectPosition.bind(
+                onClick={changeProjectPosition.bind(
                   this,
                   project,
                   position,
@@ -73,7 +64,7 @@ const Project = ({ index, name }) => {
               </button>
               <button
                 className={styles.upDownBtn}
-                onClick={handleChangeProjectPosition.bind(
+                onClick={changeProjectPosition.bind(
                   this,
                   project,
                   position,

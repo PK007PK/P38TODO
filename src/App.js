@@ -1,6 +1,7 @@
 import React from "react";
 import AppContext from "./context";
 
+import ButtonHuge from "../src/components/ButtonHuge/ButtonHuge";
 import AddProjectPanel from "./components/AddProjectPanel/AddProjectPanel";
 import ProjectList from "./components/ProjectList/ProjectsList";
 import { inArrayPositionChange } from "./utils/inArrayPositionChange";
@@ -35,45 +36,18 @@ class AddRemoveListItem extends React.Component {
         active: false,
         phase: "ideas",
       },
-      // {
-      //   id: 0,
-      //   name: "000",
-      //   value: 1,
-      //   active: false,
-      //   phase: "iideas",
-      // },
-      // {
-      //   id: 1,
-      //   name: "111",
-      //   value: 2,
-      //   active: false,
-      //   phase: "ideas",
-      // },
-      // {
-      //   id: 2,
-      //   name: "222",
-      //   value: 3,
-      //   active: false,
-      //   phase: "ideas",
-      // },
-      // {
-      //   id: 3,
-      //   name: "333",
-      //   value: 4,
-      //   active: false,
-      //   phase: "ideas",
-      // },
     ],
     newProject: { name: "" },
-    currentId: 10,
-    handleChangeProjectName: (id, name) =>
-      this.handleChangeProjectName(id, name),
-    handleDelete: (id) => this.handleDelete(id),
-    handleChangeProjectPosition: (arr, id, direction) =>
-      this.handleChangeProjectPosition(arr, id, direction),
+    // currentId: 10,
+    newProjectPanelOpen: false,
+    changeProjectName: (id, name) => this.changeProjectName(id, name),
+    deleteProject: (id) => this.deleteProject(id),
+    changeProjectPosition: (arr, id, direction) =>
+      this.changeProjectPosition(arr, id, direction),
+    switchNewProjectPanel: () => this.switchNewProjectPanel(),
   };
 
-  handleChangeProjectName = (id, name) => {
+  changeProjectName = (id, name) => {
     console.log("id: ", id, "name: ", name);
     const projectBase = this.state.project;
     const foundIndex = projectBase.findIndex((x) => x.id == id);
@@ -81,18 +55,23 @@ class AddRemoveListItem extends React.Component {
     this.setState({ project: projectBase });
   };
 
-  handleDelete = (id) => {
+  deleteProject = (id) => {
     // const newProjectBase = this.state.project.filter((ele) => ele.id != id);
     const newProjectBase = this.state.project;
     newProjectBase.splice(id, 1);
     this.setState({ project: newProjectBase });
   };
 
-  handleChangeProjectPosition = (arr, index, direction) => {
+  changeProjectPosition = (arr, index, direction) => {
     console.log(arr[index].name, "index: ", index, "Direction: ", direction);
     const newProjectOrder = inArrayPositionChange(arr, index, direction);
     this.setState({ project: newProjectOrder });
   };
+
+  switchNewProjectPanel = () =>
+    this.setState((prevState) => ({
+      newProjectPanelOpen: !prevState.newProjectPanelOpen,
+    }));
 
   handleInputChange = (e) =>
     this.setState({
@@ -114,29 +93,21 @@ class AddRemoveListItem extends React.Component {
       currentId: prevState.currentId + 1,
     }));
 
-  handleChangeProjectValue = (id, delta) => {
-    // let table = this.state.project;
-    // table[id] = { ...table[id], value: table[id].value + delta };
-    // this.setState({ project: table });
-  };
-
   render() {
     return (
       <AppContext.Provider value={this.state}>
-        <h1>Todo APP</h1>
-        <AddProjectPanel
-          inputValue={this.state.newProject.name}
-          inputChange={this.handleInputChange}
-          addProject={this.handleAddItem}
-        />
-        <div style={{ display: "flex" }}>
-          <ProjectList
-            handleChangeProjectName={this.handleChangeProjectName}
-            list={this.state.project}
-            deleteProject={this.handleDelete}
-            handleChangeProjectValue={this.handleChangeProjectValue}
-            handleChangeProjectPosition={this.handleChangeProjectPosition}
-          />
+        {this.state.newProjectPanelOpen && <AddProjectPanel />}
+        <div style={{ padding: "30px" }}>
+          <h1>Todo APP</h1>
+          <ButtonHuge onClick={this.switchNewProjectPanel}>+</ButtonHuge>
+          {/* <AddProjectPanel
+            inputValue={this.state.newProject.name}
+            inputChange={this.handleInputChange}
+            addProject={this.handleAddItem}
+          /> */}
+          <div style={{ display: "flex" }}>
+            <ProjectList list={this.state.project} />
+          </div>
         </div>
       </AppContext.Provider>
     );
