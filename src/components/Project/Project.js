@@ -12,6 +12,8 @@ const Project = ({ index, name }) => {
 
   const [panelIsActive, setPanelIsActive] = useState(false);
   const handlePanelActive = () => setPanelIsActive((prevState) => !prevState);
+  let tabindex = panelIsActive ? { tabIndex: -1 } : {};
+
   const id = index;
 
   return (
