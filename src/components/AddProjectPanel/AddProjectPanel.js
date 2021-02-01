@@ -3,7 +3,8 @@ import AppContext from "../../context";
 import style from "./AddProjectPanel.module.scss";
 import ButtonHuge from "../ButtonHuge/ButtonHuge";
 
-const AddProjectPanel = () => {
+const AddProjectPanel = ({ content }) => {
+  const Content = content;
   return (
     <AppContext.Consumer>
       {({ switchNewProjectPanel }) => (
@@ -16,6 +17,7 @@ const AddProjectPanel = () => {
               -
             </ButtonHuge>
             <h3>Add new project</h3>
+            <Content />
           </div>
         </div>
       )}

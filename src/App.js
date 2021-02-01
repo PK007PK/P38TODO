@@ -5,6 +5,8 @@ import ButtonHuge from "../src/components/ButtonHuge/ButtonHuge";
 import AddProjectPanel from "./components/AddProjectPanel/AddProjectPanel";
 import ProjectList from "./components/ProjectList/ProjectsList";
 import { inArrayPositionChange } from "./utils/inArrayPositionChange";
+import Form from "./components/Form/Form";
+
 class AddRemoveListItem extends React.Component {
   state = {
     project: [
@@ -37,18 +39,19 @@ class AddRemoveListItem extends React.Component {
         phase: "ideas",
       },
     ],
-    newProject: { name: "" },
-    // currentId: 10,
+
+    currentId: 4,
     newProjectPanelOpen: false,
     changeProjectName: (id, name) => this.changeProjectName(id, name),
     deleteProject: (id) => this.deleteProject(id),
     changeProjectPosition: (arr, id, direction) =>
       this.changeProjectPosition(arr, id, direction),
     switchNewProjectPanel: () => this.switchNewProjectPanel(),
+    handleInputChange: (e) => this.handleInputChange(e),
+    handleAddNewProject: (item) => this.handleAddNewProject(item),
   };
 
   changeProjectName = (id, name) => {
-    console.log("id: ", id, "name: ", name);
     const projectBase = this.state.project;
     const foundIndex = projectBase.findIndex((x) => x.id == id);
     projectBase[foundIndex].name = name;
@@ -63,7 +66,6 @@ class AddRemoveListItem extends React.Component {
   };
 
   changeProjectPosition = (arr, index, direction) => {
-    console.log(arr[index].name, "index: ", index, "Direction: ", direction);
     const newProjectOrder = inArrayPositionChange(arr, index, direction);
     this.setState({ project: newProjectOrder });
   };
@@ -73,38 +75,24 @@ class AddRemoveListItem extends React.Component {
       newProjectPanelOpen: !prevState.newProjectPanelOpen,
     }));
 
-  handleInputChange = (e) =>
-    this.setState({
-      newProject: [
-        {
-          id: this.state.currentId,
-          name: e.target.value,
-          value: 0,
-          active: false,
-          phase: "initial",
-        },
-      ],
-    });
-
-  handleAddItem = () =>
+  handleAddNewProject = (item) => {
+    console.log(item);
+    item.id = this.state.id;
     this.setState((prevState) => ({
-      project: prevState.project.concat(this.state.newProject),
-      newProject: { name: "" },
+      project: [item].concat(prevState.project),
       currentId: prevState.currentId + 1,
     }));
+  };
 
   render() {
     return (
       <AppContext.Provider value={this.state}>
-        {this.state.newProjectPanelOpen && <AddProjectPanel />}
+        {this.state.newProjectPanelOpen && (
+          <AddProjectPanel content={() => <Form />} />
+        )}
         <div style={{ padding: "30px" }}>
           <h1>Todo APP</h1>
           <ButtonHuge onClick={this.switchNewProjectPanel}>+</ButtonHuge>
-          {/* <AddProjectPanel
-            inputValue={this.state.newProject.name}
-            inputChange={this.handleInputChange}
-            addProject={this.handleAddItem}
-          /> */}
           <div style={{ display: "flex" }}>
             <ProjectList list={this.state.project} />
           </div>
