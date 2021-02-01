@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AppContext from "../../context";
-import style from "./AddProject.module.scss";
+import style from "./AddProjectPanel.module.scss";
 import ButtonHuge from "../ButtonHuge/ButtonHuge";
 
 const AddProjectPanel = () => {
