@@ -1,4 +1,4 @@
-import React, { useState, useEfect } from "react";
+import React from "react";
 import Project from "../Project/Project";
 
 const ProjectList = ({ list }) => {
