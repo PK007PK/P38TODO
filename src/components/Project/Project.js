@@ -10,12 +10,12 @@ const Project = ({ index, name }) => {
     <AppContext.Consumer>
       {({
         changeProjectPosition,
-        project,
+        allProjects,
         projectPanelOpen,
         switchStateItem,
         killStateItem,
       }) => {
-        const position = project.findIndex(function (item) {
+        const position = allProjects.findIndex(function (item) {
           return item.name === name;
         });
 
@@ -37,7 +37,7 @@ const Project = ({ index, name }) => {
               onClick={!panelIsActive ? openCloseProjectCard : null}
             >
               <div className={styles.nameBlock}>
-                <h3 className={styles.title}>{project[index].name}</h3>
+                <h3 className={styles.title}>{allProjects[index].name}</h3>
                 {panelIsActive && (
                   <div className={styles.buttonsBlock}>
                     <button onClick={openCloseProjectCard}>x</button>
@@ -47,7 +47,7 @@ const Project = ({ index, name }) => {
               </div>
               {panelIsActive && (
                 <div className={styles.detailsBlock}>
-                  {project[index].description}
+                  {allProjects[index].description}
                 </div>
               )}
             </div>
@@ -57,7 +57,7 @@ const Project = ({ index, name }) => {
                 className={styles.upDownBtn}
                 onClick={changeProjectPosition.bind(
                   this,
-                  project,
+                  allProjects,
                   position,
                   "up"
                 )}
@@ -66,14 +66,14 @@ const Project = ({ index, name }) => {
               </button>
               <button
                 disabled={
-                  index === project.length - 1 || projectPanelOpen
+                  index === allProjects.length - 1 || projectPanelOpen
                     ? true
                     : false
                 }
                 className={styles.upDownBtn}
                 onClick={changeProjectPosition.bind(
                   this,
-                  project,
+                  allProjects,
                   position,
                   "down"
                 )}

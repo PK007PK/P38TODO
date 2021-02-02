@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import AppContext from "../../context";
 import style from "./Modal.module.scss";
 import ButtonHuge from "../ButtonHuge/ButtonHuge";
 
-const Modal = ({ content, panel }) => {
+const Modal = ({ content, panel, title }) => {
   const Content = content;
   return (
     <AppContext.Consumer>
-      {({ switchNewProjectPanel, killStateItem }) => (
+      {({ killStateItem }) => (
         <div className={style.panel}>
           <div className={style.card}>
             <ButtonHuge
@@ -16,7 +16,7 @@ const Modal = ({ content, panel }) => {
             >
               -
             </ButtonHuge>
-            <h3>Add new project</h3>
+            <h3>{title}</h3>
             <Content />
           </div>
         </div>

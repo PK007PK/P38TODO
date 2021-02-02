@@ -6,37 +6,38 @@ import Modal from "./components/Modal/Modal";
 import ProjectList from "./components/ProjectList/ProjectsList";
 import { inArrayPositionChange } from "./utils/inArrayPositionChange";
 import FormAddNewProject from "./components/FormAddNewProject/FormAddNewProject";
+import FormEditProject from "./components/FormEditProject/FormEditProject";
 
 class AddRemoveListItem extends React.Component {
   state = {
-    project: [
+    allProjects: [
       {
         id: 0,
         name: "Dodanie aplikacji todo do portfolio",
         description:
           "1. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
-        active: false,
+        // active: false,
       },
       {
         id: 1,
         name: "Zmodyfikowanie portfolio aby pokazywać drobne aktywności",
         description:
           "2. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
-        active: false,
+        // active: false,
       },
       {
         id: 2,
         name: "Obrona Ziemi",
         description:
           "3. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
-        active: false,
+        // active: false,
       },
       {
         id: 3,
         name: "Podbój Marsa",
         description:
           "4. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
-        active: false,
+        // active: false,
       },
     ],
     currentId: 4,
@@ -66,7 +67,7 @@ class AddRemoveListItem extends React.Component {
     // const newProjectBase = this.state.project.filter((ele) => ele.id != id);
     const newProjectBase = this.state.project;
     newProjectBase.splice(id, 1);
-    this.setState({ project: newProjectBase });
+    this.setState({ allProjects: newProjectBase });
   };
 
   changeProjectPosition = (arr, index, direction) => {
@@ -82,7 +83,7 @@ class AddRemoveListItem extends React.Component {
   handleAddNewProject = (item) => {
     item.id = this.state.id;
     this.setState((prevState) => ({
-      project: [item].concat(prevState.project),
+      allProjects: [item].concat(prevState.project),
       currentId: prevState.currentId + 1,
     }));
   };
@@ -97,12 +98,17 @@ class AddRemoveListItem extends React.Component {
       <AppContext.Provider value={this.state}>
         {this.state.newProjectPanelOpen && (
           <Modal
+            title="Add new project"
             panel="newProjectPanelOpen"
             content={() => <FormAddNewProject />}
           />
         )}
         {this.state.editProjectPanelOpen && (
-          <Modal panel="editProjectPanelOpen" content={() => <p>ppp</p>} />
+          <Modal
+            title="Edit project"
+            panel="editProjectPanelOpen"
+            content={() => <FormEditProject />}
+          />
         )}
         <div style={{ padding: "30px" }}>
           <h1>Todo APP</h1>
@@ -112,7 +118,7 @@ class AddRemoveListItem extends React.Component {
             +
           </ButtonHuge>
           <div style={{ display: "flex" }}>
-            <ProjectList list={this.state.project} />
+            <ProjectList list={this.state.allProjects} />
           </div>
         </div>
       </AppContext.Provider>
