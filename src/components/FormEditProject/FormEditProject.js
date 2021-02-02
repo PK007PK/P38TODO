@@ -14,29 +14,47 @@ const FormEditProject = ({ name, description }) => {
   return (
     <AppContext.Consumer>
       {({ switchStateItem, updateProject }) => {
+        const handleClick = () => {
+          updateProject.bind(this, state)();
+          switchStateItem.bind(this, "editProjectPanelOpen")();
+        };
         return (
-          <div>
-            <input
-              className={style.input}
-              type="text"
-              name="name"
-              placeholder=" "
-              value={state.name}
-              onChange={handleInputChange}
-              autoComplete="off"
-              required
-            />
-            <input
-              className={style.input}
-              type="textarea"
-              name="description"
-              placeholder=" "
-              value={state.description}
-              onChange={handleInputChange}
-              autoComplete="off"
-              required
-            />
-            <button onClick={updateProject.bind(this, state)}>Zmień</button>
+          <div className={style.formBody}>
+            <div className={style.formItem}>
+              <input
+                className={style.input}
+                type="text"
+                name="name"
+                placeholder=" "
+                value={state.name}
+                onChange={handleInputChange}
+                autoComplete="off"
+                required
+              />
+              <label className={style.label} htmlFor="name">
+                Title
+              </label>
+              <div className={style.formItemBar} />
+            </div>
+            <div className={style.formItem}>
+              <input
+                className={style.input}
+                type="textarea"
+                name="description"
+                placeholder=" "
+                value={state.description}
+                onChange={handleInputChange}
+                autoComplete="off"
+                required
+              />
+              <label className={style.label} htmlFor="description">
+                Description
+              </label>
+              <div className={style.formItemBar} />
+            </div>
+            <button className={style.buttons} onClick={handleClick}>
+              +
+            </button>
           </div>
         );
       }}

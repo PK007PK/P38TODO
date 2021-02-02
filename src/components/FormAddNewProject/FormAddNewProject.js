@@ -20,27 +20,7 @@ const Form = () => {
         };
 
         return (
-          <div
-            className={style.formBody}
-            //   name="Template site contact form"
-            //   method="post"
-            //   action="/thanks/"
-            //   data-netlify="true"
-            //   data-netlify-honeypot="bot-field"
-            //   onSubmit={handleAddNewProject}
-          >
-            {/* The `form-name` hidden field is required to support form submissions without JavaScript */}
-            <input type="hidden" name="hiden-input" value="contact" />
-            <div hidden>
-              <label htmlFor="bot-field">
-                Don’t fill this out:{" "}
-                <input
-                  name="bot-field"
-                  onChange={handleInputChange}
-                  autoComplete="off"
-                />
-              </label>
-            </div>
+          <div className={style.formBody}>
             <div className={style.formItem}>
               <input
                 className={style.input}
