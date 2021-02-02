@@ -23,6 +23,11 @@ const Project = ({ index, name }) => {
           handlePanelActive();
         };
 
+        const openEditProjectPanel = () => {
+          switchStateItem.bind(this, "editProjectPanelOpen")();
+          handlePanelActive();
+        };
+
         return (
           <li className={panelIsActive ? styles.projectActive : styles.project}>
             <div
@@ -34,7 +39,7 @@ const Project = ({ index, name }) => {
                 {panelIsActive && (
                   <div className={styles.buttonsBlock}>
                     <button onClick={openCloseProjectCard}>x</button>
-                    <button>Edit</button>
+                    <button onClick={openEditProjectPanel}>Edit</button>
                   </div>
                 )}
               </div>

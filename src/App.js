@@ -95,6 +95,9 @@ class AddRemoveListItem extends React.Component {
         {this.state.newProjectPanelOpen && (
           <AddProjectPanel content={() => <Form />} />
         )}
+        {this.state.editProjectPanelOpen && (
+          <AddProjectPanel content={() => <p>ppp</p>} />
+        )}
         <div style={{ padding: "30px" }}>
           <h1>Todo APP</h1>
           <ButtonHuge onClick={this.switchNewProjectPanel}>+</ButtonHuge>
