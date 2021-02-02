@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import AppContext from "../../context";
-import style from "./AddProjectPanel.module.scss";
+import style from "./Modal.module.scss";
 import ButtonHuge from "../ButtonHuge/ButtonHuge";
 
-const AddProjectPanel = ({ content }) => {
+const Modal = ({ content, panel }) => {
   const Content = content;
   return (
     <AppContext.Consumer>
-      {({ switchNewProjectPanel }) => (
+      {({ switchNewProjectPanel, killStateItem }) => (
         <div className={style.panel}>
           <div className={style.card}>
             <ButtonHuge
-              onClick={switchNewProjectPanel}
+              onClick={killStateItem.bind(this, panel)}
               className={style.switchButton}
             >
               -
@@ -25,4 +25,4 @@ const AddProjectPanel = ({ content }) => {
   );
 };
 
-export default AddProjectPanel;
+export default Modal;

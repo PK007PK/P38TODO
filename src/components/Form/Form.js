@@ -13,10 +13,10 @@ const Form = () => {
 
   return (
     <AppContext.Consumer>
-      {({ handleAddNewProject, switchNewProjectPanel }) => {
+      {({ handleAddNewProject, switchStateItem }) => {
         const handleAddProjectButton = () => {
           handleAddNewProject.bind(this, state)();
-          switchNewProjectPanel();
+          switchStateItem.bind(this, "newProjectPanelOpen")();
         };
 
         return (

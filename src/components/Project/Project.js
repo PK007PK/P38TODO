@@ -13,6 +13,7 @@ const Project = ({ index, name }) => {
         project,
         projectPanelOpen,
         switchStateItem,
+        killStateItem,
       }) => {
         const position = project.findIndex(function (item) {
           return item.name === name;
@@ -25,6 +26,7 @@ const Project = ({ index, name }) => {
 
         const openEditProjectPanel = () => {
           switchStateItem.bind(this, "editProjectPanelOpen")();
+          killStateItem.bind(this, "projectPanelOpen")();
           handlePanelActive();
         };
 
