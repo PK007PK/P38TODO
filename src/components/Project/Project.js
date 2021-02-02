@@ -36,7 +36,14 @@ const Project = ({ index, name }) => {
           <li className={panelIsActive ? styles.projectActive : styles.project}>
             <div
               className={styles.mainInfo}
-              onClick={!panelIsActive ? openCloseProjectCard : null}
+              style={
+                !panelIsActive && projectPanelOpen ? { opacity: 0.3 } : null
+              }
+              onClick={
+                !panelIsActive && !projectPanelOpen
+                  ? openCloseProjectCard
+                  : null
+              }
             >
               <div className={styles.nameBlock}>
                 <h3 className={styles.title}>{allProjects[index].name}</h3>

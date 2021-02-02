@@ -18,6 +18,7 @@ const Modal = ({ content, panel, title }) => {
             </ButtonHuge>
             <h3>{title}</h3>
             <Content />
+            <p>Buttons are beautiful when they are big...</p>
           </div>
         </div>
       )}
