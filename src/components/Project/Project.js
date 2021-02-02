@@ -3,55 +3,50 @@ import AppContext from "../../context";
 import styles from "./Project.module.scss";
 
 const Project = ({ index, name }) => {
-  const [projectName, changeName] = useState(name);
-  const handleChange = (e) => changeName(e.target.value);
-
   const [panelIsActive, setPanelIsActive] = useState(false);
   const handlePanelActive = () => setPanelIsActive((prevState) => !prevState);
-
-  const id = index;
 
   return (
     <AppContext.Consumer>
       {({
-        changeProjectName,
-        deleteProject,
         changeProjectPosition,
         project,
+        projectPanelOpen,
+        switchStateItem,
       }) => {
         const position = project.findIndex(function (item) {
           return item.name === name;
         });
+
+        const openCloseProjectCard = () => {
+          switchStateItem.bind(this, "projectPanelOpen")();
+          handlePanelActive();
+        };
+
         return (
           <li className={panelIsActive ? styles.projectActive : styles.project}>
             <div
               className={styles.mainInfo}
-              onClick={!panelIsActive && handlePanelActive}
+              onClick={!panelIsActive ? openCloseProjectCard : null}
             >
               <div className={styles.nameBlock}>
-                <h3 className={styles.title}>{project[id].name}</h3>
+                <h3 className={styles.title}>{project[index].name}</h3>
                 {panelIsActive && (
-                  <button onClick={handlePanelActive}>-</button>
+                  <div className={styles.buttonsBlock}>
+                    <button onClick={openCloseProjectCard}>x</button>
+                    <button>Edit</button>
+                  </div>
                 )}
               </div>
               {panelIsActive && (
                 <div className={styles.detailsBlock}>
-                  <button onClick={deleteProject.bind(this, index)}>
-                    {index} Usuń
-                  </button>
-                  <div>
-                    <input value={projectName} onChange={handleChange}></input>
-                    <button
-                      onClick={changeProjectName.bind(this, id, projectName)}
-                    >
-                      Change name
-                    </button>
-                  </div>
+                  {project[index].description}
                 </div>
               )}
             </div>
             <div className={styles.upDownBlock}>
               <button
+                disabled={index === 0 || projectPanelOpen ? true : false}
                 className={styles.upDownBtn}
                 onClick={changeProjectPosition.bind(
                   this,
@@ -63,6 +58,11 @@ const Project = ({ index, name }) => {
                 up
               </button>
               <button
+                disabled={
+                  index === project.length - 1 || projectPanelOpen
+                    ? true
+                    : false
+                }
                 className={styles.upDownBtn}
                 onClick={changeProjectPosition.bind(
                   this,

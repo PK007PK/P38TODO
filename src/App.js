@@ -13,48 +13,51 @@ class AddRemoveListItem extends React.Component {
       {
         id: 0,
         name: "Dodanie aplikacji todo do portfolio",
-        value: 1,
+        description:
+          "1. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
         active: false,
-        phase: "iideas",
       },
       {
         id: 1,
         name: "Zmodyfikowanie portfolio aby pokazywać drobne aktywności",
-        value: 2,
+        description:
+          "2. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
         active: false,
-        phase: "ideas",
       },
       {
         id: 2,
-        name: "Przerobić stronę CV w stronę ogólnego bloga",
-        value: 3,
+        name: "Obrona Ziemi",
+        description:
+          "3. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
         active: false,
-        phase: "ideas",
       },
       {
         id: 3,
-        name: "Przygotować arkusz ogólny pod prognozy",
-        value: 4,
+        name: "Podbój Marsa",
+        description:
+          "4. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
         active: false,
-        phase: "ideas",
       },
     ],
-
     currentId: 4,
+    projectPanelOpen: false,
     newProjectPanelOpen: false,
-    changeProjectName: (id, name) => this.changeProjectName(id, name),
-    deleteProject: (id) => this.deleteProject(id),
+    editProjectPanelOpen: false,
+    switchNewProjectPanel: () => this.switchNewProjectPanel(),
+    switchEditProjectPanel: () => this.switchEditProjectPanel(),
+    // changeProjectName: (id, name) => this.changeProjectName(id, name),
+    // deleteProject: (id) => this.deleteProject(id),
     changeProjectPosition: (arr, id, direction) =>
       this.changeProjectPosition(arr, id, direction),
-    switchNewProjectPanel: () => this.switchNewProjectPanel(),
-    handleInputChange: (e) => this.handleInputChange(e),
+    // handleInputChange: (e) => this.handleInputChange(e),
     handleAddNewProject: (item) => this.handleAddNewProject(item),
+    switchStateItem: (item) => this.switchStateItem(item),
   };
 
   changeProjectName = (id, name) => {
     const projectBase = this.state.project;
-    const foundIndex = projectBase.findIndex((x) => x.id == id);
-    projectBase[foundIndex].name = name;
+    // const foundIndex = projectBase.findIndex((x) => x.id == id);
+    projectBase[id].name = name;
     this.setState({ project: projectBase });
   };
 
@@ -76,13 +79,15 @@ class AddRemoveListItem extends React.Component {
     }));
 
   handleAddNewProject = (item) => {
-    console.log(item);
     item.id = this.state.id;
     this.setState((prevState) => ({
       project: [item].concat(prevState.project),
       currentId: prevState.currentId + 1,
     }));
   };
+
+  switchStateItem = (item) =>
+    this.setState((prevState) => ({ [item]: !prevState[item] }));
 
   render() {
     return (
