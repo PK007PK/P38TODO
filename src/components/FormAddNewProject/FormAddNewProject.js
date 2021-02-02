@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import style from "./Form.module.scss";
+import style from "./FormAddNewProject.module.scss";
 import AppContext from "../../context";
 
 const Form = () => {

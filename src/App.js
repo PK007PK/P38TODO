@@ -5,7 +5,7 @@ import ButtonHuge from "../src/components/ButtonHuge/ButtonHuge";
 import Modal from "./components/Modal/Modal";
 import ProjectList from "./components/ProjectList/ProjectsList";
 import { inArrayPositionChange } from "./utils/inArrayPositionChange";
-import Form from "./components/Form/Form";
+import FormAddNewProject from "./components/FormAddNewProject/FormAddNewProject";
 
 class AddRemoveListItem extends React.Component {
   state = {
@@ -96,7 +96,10 @@ class AddRemoveListItem extends React.Component {
     return (
       <AppContext.Provider value={this.state}>
         {this.state.newProjectPanelOpen && (
-          <Modal panel="newProjectPanelOpen" content={() => <Form />} />
+          <Modal
+            panel="newProjectPanelOpen"
+            content={() => <FormAddNewProject />}
+          />
         )}
         {this.state.editProjectPanelOpen && (
           <Modal panel="editProjectPanelOpen" content={() => <p>ppp</p>} />
