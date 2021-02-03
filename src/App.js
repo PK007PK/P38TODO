@@ -16,28 +16,24 @@ class AddRemoveListItem extends React.Component {
         name: "Dodanie aplikacji todo do portfolio",
         description:
           "1. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
-        // active: false,
       },
       {
         id: 1,
         name: "Zmodyfikowanie portfolio aby pokazywać drobne aktywności",
         description:
           "2. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
-        // active: false,
       },
       {
         id: 2,
         name: "Obrona Ziemi",
         description:
           "3. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
-        // active: false,
       },
       {
         id: 3,
         name: "Podbój Marsa",
         description:
           "4. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
-        // active: false,
       },
     ],
     currentId: 4,
@@ -79,11 +75,6 @@ class AddRemoveListItem extends React.Component {
     this.setState({ project: newProjectOrder });
   };
 
-  // switchNewProjectPanel = () =>
-  //   this.setState((prevState) => ({
-  //     newProjectPanelOpen: !prevState.newProjectPanelOpen,
-  //   }));
-
   addNewProject = (item) => {
     item.id = this.state.id;
     this.setState((prevState) => ({
@@ -106,15 +97,6 @@ class AddRemoveListItem extends React.Component {
   killStateItem = (item) => this.setState({ [item]: false });
 
   setValueForStateItem = (item, value) => this.setState({ [item]: value });
-
-  // takeValueFromEvent =
-  // handleInputChange = (e,index) =>
-  //   this.setState((prevState) => ({
-  //     ...prevState.allProjects,
-  //     this.state.allProjects.[e.target.name]: e.target.value,
-  //   }));
-  changeValueInArray = (e, index) =>
-    this.setState({ allProjects: e.target.value });
 
   render() {
     return (
