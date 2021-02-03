@@ -8,7 +8,7 @@ import { inArrayPositionChange } from "./utils/inArrayPositionChange";
 import FormAddNewProject from "./components/FormAddNewProject/FormAddNewProject";
 import FormEditProject from "./components/FormEditProject/FormEditProject";
 
-class AddRemoveListItem extends React.Component {
+class App extends React.Component {
   state = {
     allProjects: [
       {
@@ -41,11 +41,7 @@ class AddRemoveListItem extends React.Component {
     projectPanelOpen: false,
     newProjectPanelOpen: false,
     editProjectPanelOpen: false,
-    // switchNewProjectPanel: () => this.switchNewProjectPanel(),
-    // switchEditProjectPanel: () => this.switchEditProjectPanel(),
-    // changeProjectName: (id, name) => this.changeProjectName(id, name),
-    // deleteProject: (id) => this.deleteProject(id),
-    // handleInputChange: (e) => this.handleInputChange(e),
+
     changeProjectPosition: (arr, id, direction) =>
       this.changeProjectPosition(arr, id, direction),
     addNewProject: (item) => this.addNewProject(item),
@@ -54,13 +50,6 @@ class AddRemoveListItem extends React.Component {
     killStateItem: (item) => this.killStateItem(item),
     setValueForStateItem: (item, value) =>
       this.setValueForStateItem(item, value),
-  };
-
-  changeProjectName = (id, name) => {
-    const projectBase = this.state.project;
-    // const foundIndex = projectBase.findIndex((x) => x.id == id);
-    projectBase[id].name = name;
-    this.setState({ project: projectBase });
   };
 
   deleteProject = (id) => {
@@ -139,4 +128,4 @@ class AddRemoveListItem extends React.Component {
   }
 }
 
-export default AddRemoveListItem;
+export default App;
