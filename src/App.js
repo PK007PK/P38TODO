@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppContext from "./context";
 
 import ButtonHuge from "../src/components/ButtonHuge/ButtonHuge";
@@ -8,63 +8,16 @@ import { inArrayPositionChange } from "./utils/inArrayPositionChange";
 import FormAddNewProject from "./components/FormAddNewProject/FormAddNewProject";
 import FormEditProject from "./components/FormEditProject/FormEditProject";
 
-class App extends React.Component {
-  state = {
-    allProjects: [
-      {
-        id: 0,
-        name: "Dodanie aplikacji todo do portfolio",
-        description:
-          "1. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
-      },
-      {
-        id: 1,
-        name: "Zmodyfikowanie portfolio aby pokazywać drobne aktywności",
-        description:
-          "2. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
-      },
-      {
-        id: 2,
-        name: "Obrona Ziemi",
-        description:
-          "3. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
-      },
-      {
-        id: 3,
-        name: "Podbój Marsa",
-        description:
-          "4. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus semper risus, id placerat neque cursus a. Donec quam nisl, euismod a eleifend in, commodo eu leo. Nunc imperdiet nulla quis semper pretium. Cras sagittis quam eu est volutpat, aliquam lacinia nunc imperdiet. In convallis nulla nibh, in pharetra urna viverra et. In molestie a augue in dapibus. Vivamus non maximus felis, ac lobortis dui.",
-      },
-    ],
-    currentId: 4,
-    projectInEdition: null,
-    projectPanelOpen: false,
-    newProjectPanelOpen: false,
-    editProjectPanelOpen: false,
+const App = () => {
+  const [allProjects, setAllProjects] = useState([]);
+  const [currentId, setCurrentId] = useState(0);
 
-    changeProjectPosition: (arr, id, direction) =>
-      this.changeProjectPosition(arr, id, direction),
-    addNewProject: (item) => this.addNewProject(item),
-    updateProject: (item) => this.updateProject(item),
-    switchStateItem: (item) => this.switchStateItem(item),
-    killStateItem: (item) => this.killStateItem(item),
-    setValueForStateItem: (item, value) =>
-      this.setValueForStateItem(item, value),
-  };
-
-  deleteProject = (id) => {
-    // const newProjectBase = this.state.project.filter((ele) => ele.id != id);
-    const newProjectBase = this.state.project;
-    newProjectBase.splice(id, 1);
-    this.setState({ allProjects: newProjectBase });
-  };
-
-  changeProjectPosition = (arr, index, direction) => {
+  const changeProjectPosition = (arr, index, direction) => {
     const newProjectOrder = inArrayPositionChange(arr, index, direction);
     this.setState({ project: newProjectOrder });
   };
 
-  addNewProject = (item) => {
+  const addNewProject = (item) => {
     item.id = this.state.id;
     this.setState((prevState) => ({
       allProjects: [item].concat(prevState.allProjects),
@@ -72,7 +25,7 @@ class App extends React.Component {
     }));
   };
 
-  updateProject = (item) => {
+  const updateProject = (item) => {
     const projectBase = this.state.allProjects;
     projectBase[this.state.projectInEdition] = item;
     this.setState((prevState) => ({
@@ -80,52 +33,75 @@ class App extends React.Component {
     }));
   };
 
-  switchStateItem = (item) =>
-    this.setState((prevState) => ({ [item]: !prevState[item] }));
+  const deleteProject = (id) => {
+    // const newProjectBase = this.state.project.filter((ele) => ele.id != id);
+    const newProjectBase = this.state.project;
+    newProjectBase.splice(id, 1);
+    this.setState({ allProjects: newProjectBase });
+  };
 
-  killStateItem = (item) => this.setState({ [item]: false });
+  const [projectInEdition, setProjectInEdition] = useState(null);
+  const [projectPanelOpen, setProjectPanelOpen] = useState(false);
+  const [newProjectPanelOpen, setNewProjectPanelOpen] = useState(false);
+  const [editProjectPanelOpen, setEditProjectPanelOpen] = useState(false);
 
-  setValueForStateItem = (item, value) => this.setState({ [item]: value });
+  // state = {
 
-  render() {
-    return (
-      <AppContext.Provider value={this.state}>
-        {this.state.newProjectPanelOpen && (
-          <Modal
-            title="Add new project"
-            panel="newProjectPanelOpen"
-            content={() => <FormAddNewProject />}
-          />
-        )}
-        {this.state.editProjectPanelOpen && (
-          <Modal
-            title="Edit project"
-            panel="editProjectPanelOpen"
-            content={() => (
-              <FormEditProject
-                name={this.state.allProjects[this.state.projectInEdition].name}
-                description={
-                  this.state.allProjects[this.state.projectInEdition]
-                    .description
-                }
-              />
-            )}
-          />
-        )}
-        <div style={{ padding: "30px" }}>
-          <h1>Todo APP</h1>
-          <ButtonHuge
-            onClick={this.switchStateItem.bind(this, "newProjectPanelOpen")}
-          >
-            +
-          </ButtonHuge>
-          <div style={{ display: "flex" }}>
-            <ProjectList list={this.state.allProjects} />
-          </div>
+  //   currentId: 4,
+  //   projectInEdition: null,
+  //   projectPanelOpen: false,
+  //   newProjectPanelOpen: false,
+  //   editProjectPanelOpen: false,
+
+  //   // changeProjectPosition: (arr, id, direction) =>
+  //   //   this.changeProjectPosition(arr, id, direction),
+  //   // addNewProject: (item) => this.addNewProject(item),
+  //   updateProject: (item) => this.updateProject(item),
+  //   switchStateItem: (item) => this.switchStateItem(item),
+  //   killStateItem: (item) => this.killStateItem(item),
+  //   setValueForStateItem: (item, value) =>
+  //     this.setValueForStateItem(item, value),
+  // };
+
+  // switchStateItem = (item) =>
+  //   this.setState((prevState) => ({ [item]: !prevState[item] }));
+
+  // killStateItem = (item) => this.setState({ [item]: false });
+
+  // setValueForStateItem = (item, value) => this.setState({ [item]: value });
+
+  return (
+    <AppContext.Provider value={allProjects}>
+      {newProjectPanelOpen && (
+        <Modal
+          title="Add new project"
+          panel="newProjectPanelOpen"
+          content={() => <FormAddNewProject />}
+        />
+      )}
+      {editProjectPanelOpen && (
+        <Modal
+          title="Edit project"
+          panel="editProjectPanelOpen"
+          content={() => (
+            <FormEditProject
+              name={allProjects[projectInEdition].name}
+              description={allProjects[projectInEdition].description}
+            />
+          )}
+        />
+      )}
+      <div style={{ padding: "30px" }}>
+        <h1>Todo APP</h1>
+        <ButtonHuge onClick={switchStateItem.bind(this, "newProjectPanelOpen")}>
+          +
+        </ButtonHuge>
+        <div style={{ display: "flex" }}>
+          <ProjectList list={allProjects} />
         </div>
-      </AppContext.Provider>
-    );
-  }
-}
+      </div>
+    </AppContext.Provider>
+  );
+};
 
 export default App;
