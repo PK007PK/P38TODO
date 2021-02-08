@@ -5,13 +5,13 @@ import ButtonHuge from "../ButtonHuge/ButtonHuge";
 
 const Modal = ({ content, panel, title }) => {
   const Content = content;
-  const { killStateItem } = useContext(AppContext);
+  const { killStateItem, switchNewProjectPanel } = useContext(AppContext);
 
   return (
     <div className={style.panel}>
       <div className={style.card}>
         <ButtonHuge
-          onClick={killStateItem.bind(this, panel)}
+          onClick={switchNewProjectPanel}
           className={style.switchButton}
         >
           -
