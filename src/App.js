@@ -11,9 +11,22 @@ import { inArrayPositionChange } from "./utils/inArrayPositionChange";
 import style from "./app.module.scss";
 
 const App = () => {
-  const [allProjects, setAllProjects] = useState([]);
+  const [allProjects, setAllProjects] = useState([
+    {
+      id: 0,
+      name: "Truth deceptions snare endless inexpedient",
+      description:
+        "Battle hatred superiority victorious gains suicide reason society. Hope self disgust derive convictions victorious ascetic. Battle good evil self justice.",
+    },
+    {
+      id: 1,
+      name: "Holiest of contradict spirit dead",
+      description:
+        "Self burying love passion morality justice morality. Passion ocean oneself burying pious pious victorious inexpedient value will. Fearful",
+    },
+  ]);
   const [update, setUpdate] = useState(false);
-  const [currentId, setcurrentId] = useState(0);
+  const [currentId, setcurrentId] = useState(2);
 
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false);
 

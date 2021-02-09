@@ -36,10 +36,21 @@ const Project = ({ id }) => {
   };
 
   const mainControlButtons = panelIsActive ? (
-    <div className={styles.buttonsBlock}>
-      <button onClick={openCloseProjectCard}>x</button>
-      <button onClick={openEditProjectPanel}>Edit</button>
-      <button onClick={handleDeleteProject}>Del</button>
+    <div className={styles.mainControlBlock}>
+      <button className={styles.upDownBtn} onClick={openEditProjectPanel}>
+        Edit
+      </button>
+      <button className={styles.upDownBtn} onClick={handleDeleteProject}>
+        Del
+      </button>
+    </div>
+  ) : null;
+
+  const closeButtonBlock = panelIsActive ? (
+    <div className={styles.closeButtonBlock}>
+      <button className={styles.closeBtn} onClick={openCloseProjectCard}>
+        Close
+      </button>
     </div>
   ) : null;
 
@@ -56,8 +67,9 @@ const Project = ({ id }) => {
       >
         <div className={styles.nameBlock}>
           <h3 className={styles.title}>{project.name}</h3>
-          {mainControlButtons}
         </div>
+        {closeButtonBlock}
+        {mainControlButtons}
         {projectDescriptionPanel}
       </div>
       <div className={styles.upDownBlock}>
