@@ -8,7 +8,7 @@ const Modal = ({ content, title }) => {
   const { closeModals } = useContext(AppContext);
 
   return (
-    <div className={style.panel}>
+    <div className={style.modal}>
       <div className={style.card}>
         <ButtonHuge onClick={closeModals} className={style.switchButton}>
           -
