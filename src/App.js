@@ -16,43 +16,32 @@ const App = () => {
   ]);
   const [update, setUpdate] = useState(false);
   const [currentId, setcurrentId] = useState(2);
-  const [newProjectPanelOpen, setNewProjectPanelOpen] = useState(false);
+
+  const [newProjectModalOpen, setNewProjectModalOpen] = useState(false);
 
   const switchNewProjectPanel = () =>
-    setNewProjectPanelOpen((prevState) => !prevState);
+    setNewProjectModalOpen((prevState) => !prevState);
 
-  // const [editProjectPanelOpen, setEditProjectPanelOpen] = useState(false);
   const [projectInEdition, setProjectInEdition] = useState(null);
-  const [projectPanelOpen, setProjectPanelOpen] = useState(false);
+  const [projectOpen, setProjectOpen] = useState(false);
 
-  const toogleProjectPanelOpen = (id) => {
-    setProjectPanelOpen(!projectPanelOpen);
+  const toogleProjectOpen = (id) => {
+    setProjectOpen(!projectOpen);
     setProjectInEdition(id);
   };
-  // state = {
-  //   allProjects: [],
-  //   currentId: 2,
-  //   projectInEdition: null,
-  //   projectPanelOpen: false,
-  //   newProjectPanelOpen: false,
-  //   editProjectPanelOpen: false,
 
-  //   changeProjectPosition: (arr, id, direction) =>
-  //     this.changeProjectPosition(arr, id, direction),
-  //   addNewProject: (item) => this.addNewProject(item),
-  //   updateProject: (item) => this.updateProject(item),
-  //   switchStateItem: (item) => this.switchStateItem(item),
-  //   killStateItem: (item) => this.killStateItem(item),
-  //   setValueForStateItem: (item, value) =>
-  //     this.setValueForStateItem(item, value),
-  // };
+  const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
 
-  // deleteProject = (id) => {
-  //   // const newProjectBase = this.state.project.filter((ele) => ele.id != id);
-  //   const newProjectBase = this.state.project;
-  //   newProjectBase.splice(id, 1);
-  //   this.setState({ allProjects: newProjectBase });
-  // };
+  const toogleEditProjectModalOpen = (id) => {
+    setEditProjectModalOpen(!editProjectModalOpen);
+    setProjectInEdition(id);
+  };
+
+  const closeModals = () => {
+    setEditProjectModalOpen(false);
+    setNewProjectModalOpen(false);
+    setProjectOpen(false);
+  };
 
   const changeProjectPosition = (arr, index, direction) => {
     const newProjectOrder = inArrayPositionChange(arr, index, direction);
@@ -66,51 +55,50 @@ const App = () => {
     setcurrentId((prevState) => prevState + 1);
   };
 
-  // updateProject = (item) => {
-  //   const projectBase = this.state.allProjects;
-  //   projectBase[this.state.projectInEdition] = item;
-  //   this.setState((prevState) => ({
-  //     allProjects: projectBase,
-  //   }));
-  // };
+  const updateProject = (item) => {
+    const id = item.id;
+    const index = allProjects.findIndex(function (item) {
+      return item.id === id;
+    });
+    const updatedProjectBase = allProjects;
+    updatedProjectBase[index] = item;
+    setAllProjects(updatedProjectBase);
+  };
 
-  // switchStateItem = (item) =>
-  //   this.setState((prevState) => ({ [item]: !prevState[item] }));
+  const deleteProject = (id) => {
+    const newProjectBase = allProjects;
+    const index = allProjects.findIndex(function (item) {
+      return item.id === id;
+    });
+    newProjectBase.splice(index, 1);
+    setAllProjects(newProjectBase);
+    setUpdate(!update);
+    setProjectOpen(false);
+  };
 
-  // killStateItem = (item) => this.setState({ [item]: false });
-
-  // setValueForStateItem = (item, value) => this.setState({ [item]: value });
-  console.log("Initial list: ", allProjects);
   return (
     <AppContext.Provider
       value={{
-        changeProjectPosition,
         allProjects,
-        switchNewProjectPanel,
+        changeProjectPosition,
         addNewProject,
-        projectPanelOpen,
-        toogleProjectPanelOpen,
+        deleteProject,
+        projectOpen,
+        projectInEdition,
+        setProjectInEdition,
+        switchNewProjectPanel,
+        toogleProjectOpen,
+        updateProject,
+        toogleEditProjectModalOpen,
+        closeModals,
       }}
     >
-      {newProjectPanelOpen && (
-        <Modal
-          title="Add new project"
-          panel="newProjectPanelOpen"
-          content={() => <FormAddNewProject />}
-        />
+      {newProjectModalOpen && (
+        <Modal title="Add new project" content={() => <FormAddNewProject />} />
       )}
-      {/* {editProjectPanelOpen && (
-        <Modal
-          title="Edit project"
-          panel="editProjectPanelOpen"
-          content={() => (
-            <FormEditProject
-              name={allProjects[projectInEdition].name}
-              description={allProjects[projectInEdition].description}
-            />
-          )}
-        />
-      )} */}
+      {editProjectModalOpen && (
+        <Modal title="Edit project" content={() => <FormEditProject />} />
+      )}
       <div style={{ padding: "30px" }}>
         <h1>Todo APP</h1>
         <ButtonHuge onClick={switchNewProjectPanel}>+</ButtonHuge>

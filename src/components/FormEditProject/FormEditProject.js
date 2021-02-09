@@ -2,10 +2,14 @@ import React, { useContext, useState } from "react";
 import style from "./FormEditProject.module.scss";
 import AppContext from "../../context";
 
-const FormEditProject = ({ name, description }) => {
-  const [state, setState] = useState({ name: name, description: description });
+const FormEditProject = () => {
+  const { allProjects, projectInEdition } = useContext(AppContext);
 
-  const { switchStateItem, updateProject } = useContext(AppContext);
+  const project = allProjects.find((item) => item.id === projectInEdition);
+
+  const [state, setState] = useState(project);
+
+  const { updateProject, closeModals } = useContext(AppContext);
 
   const handleInputChange = (e) =>
     setState((prevState) => ({
@@ -15,7 +19,8 @@ const FormEditProject = ({ name, description }) => {
 
   const handleClick = () => {
     updateProject.bind(this, state)();
-    switchStateItem.bind(this, "editProjectPanelOpen")();
+    closeModals();
+    // switchStateItem.bind(this, "editProjectPanelOpen")();
   };
 
   return (

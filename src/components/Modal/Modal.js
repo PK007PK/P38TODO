@@ -3,17 +3,14 @@ import AppContext from "../../context";
 import style from "./Modal.module.scss";
 import ButtonHuge from "../ButtonHuge/ButtonHuge";
 
-const Modal = ({ content, panel, title }) => {
+const Modal = ({ content, title }) => {
   const Content = content;
-  const { switchNewProjectPanel } = useContext(AppContext);
+  const { closeModals } = useContext(AppContext);
 
   return (
     <div className={style.panel}>
       <div className={style.card}>
-        <ButtonHuge
-          onClick={switchNewProjectPanel}
-          className={style.switchButton}
-        >
+        <ButtonHuge onClick={closeModals} className={style.switchButton}>
           -
         </ButtonHuge>
         <h3>{title}</h3>

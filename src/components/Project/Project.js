@@ -8,11 +8,10 @@ const Project = ({ id }) => {
   const {
     changeProjectPosition,
     allProjects,
-    projectPanelOpen,
-    toogleProjectPanelOpen,
-    // switchStateItem,
-    // killStateItem,
-    // setValueForStateItem,
+    projectOpen,
+    deleteProject,
+    toogleProjectOpen,
+    toogleEditProjectModalOpen,
   } = useContext(AppContext);
 
   const index = allProjects.findIndex(function (item) {
@@ -22,21 +21,25 @@ const Project = ({ id }) => {
   const project = allProjects.find((item) => item.id === id);
 
   const openCloseProjectCard = (id) => {
-    toogleProjectPanelOpen(id);
+    toogleProjectOpen(id);
     setPanelIsActive(!panelIsActive);
   };
 
   const openEditProjectPanel = () => {
-    // switchStateItem.bind(this, "editProjectPanelOpen")();
-    // setValueForStateItem.bind(this, "projectInEdition", index)();
-    // killStateItem.bind(this, "projectPanelOpen")();
-    // handlePanelActive();
+    setPanelIsActive(false);
+    toogleEditProjectModalOpen.bind(this, id)();
+  };
+
+  const handleDeleteProject = () => {
+    deleteProject.bind(this, id)();
+    setPanelIsActive(!panelIsActive);
   };
 
   const mainControlButtons = panelIsActive ? (
     <div className={styles.buttonsBlock}>
       <button onClick={openCloseProjectCard}>x</button>
       <button onClick={openEditProjectPanel}>Edit</button>
+      <button onClick={handleDeleteProject}>Del</button>
     </div>
   ) : null;
 
@@ -48,10 +51,8 @@ const Project = ({ id }) => {
     <li className={panelIsActive ? styles.projectActive : styles.project}>
       <div
         className={styles.mainInfo}
-        style={!panelIsActive && projectPanelOpen ? { opacity: 0.3 } : null}
-        onClick={
-          !panelIsActive && !projectPanelOpen ? openCloseProjectCard : null
-        }
+        style={!panelIsActive && projectOpen ? { opacity: 0.3 } : null}
+        onClick={!panelIsActive && !projectOpen ? openCloseProjectCard : null}
       >
         <div className={styles.nameBlock}>
           <h3 className={styles.title}>{project.name}</h3>
@@ -61,7 +62,7 @@ const Project = ({ id }) => {
       </div>
       <div className={styles.upDownBlock}>
         <button
-          disabled={index === 0 || projectPanelOpen ? true : false}
+          disabled={index === 0 || projectOpen ? true : false}
           className={styles.upDownBtn}
           onClick={changeProjectPosition.bind(this, allProjects, index, "up")}
         >
@@ -69,7 +70,7 @@ const Project = ({ id }) => {
         </button>
         <button
           disabled={
-            index === allProjects.length - 1 || projectPanelOpen ? true : false
+            index === allProjects.length - 1 || projectOpen ? true : false
           }
           className={styles.upDownBtn}
           onClick={changeProjectPosition.bind(this, allProjects, index, "down")}
