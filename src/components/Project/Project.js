@@ -2,33 +2,35 @@ import React, { useContext, useState } from "react";
 import AppContext from "../../context";
 import styles from "./Project.module.scss";
 
-const Project = ({ index, name }) => {
+const Project = ({ id }) => {
   const [panelIsActive, setPanelIsActive] = useState(false);
-  const handlePanelActive = () => setPanelIsActive((prevState) => !prevState);
 
   const {
     changeProjectPosition,
     allProjects,
     projectPanelOpen,
-    switchStateItem,
-    killStateItem,
-    setValueForStateItem,
+    toogleProjectPanelOpen,
+    // switchStateItem,
+    // killStateItem,
+    // setValueForStateItem,
   } = useContext(AppContext);
 
-  const position = allProjects.findIndex(function (item) {
-    return item.name === name;
+  const index = allProjects.findIndex(function (item) {
+    return item.id === id;
   });
 
-  const openCloseProjectCard = () => {
-    switchStateItem.bind(this, "projectPanelOpen")();
-    handlePanelActive();
+  const project = allProjects.find((item) => item.id === id);
+
+  const openCloseProjectCard = (id) => {
+    toogleProjectPanelOpen(id);
+    setPanelIsActive(!panelIsActive);
   };
 
   const openEditProjectPanel = () => {
-    switchStateItem.bind(this, "editProjectPanelOpen")();
-    setValueForStateItem.bind(this, "projectInEdition", index)();
-    killStateItem.bind(this, "projectPanelOpen")();
-    handlePanelActive();
+    // switchStateItem.bind(this, "editProjectPanelOpen")();
+    // setValueForStateItem.bind(this, "projectInEdition", index)();
+    // killStateItem.bind(this, "projectPanelOpen")();
+    // handlePanelActive();
   };
 
   const mainControlButtons = panelIsActive ? (
@@ -39,7 +41,7 @@ const Project = ({ index, name }) => {
   ) : null;
 
   const projectDescriptionPanel = panelIsActive ? (
-    <div className={styles.detailsBlock}>{allProjects[index].description}</div>
+    <div className={styles.detailsBlock}>{project.description}</div>
   ) : null;
 
   return (
@@ -52,7 +54,7 @@ const Project = ({ index, name }) => {
         }
       >
         <div className={styles.nameBlock}>
-          <h3 className={styles.title}>{allProjects[index].name}</h3>
+          <h3 className={styles.title}>{project.name}</h3>
           {mainControlButtons}
         </div>
         {projectDescriptionPanel}
@@ -61,12 +63,7 @@ const Project = ({ index, name }) => {
         <button
           disabled={index === 0 || projectPanelOpen ? true : false}
           className={styles.upDownBtn}
-          onClick={changeProjectPosition.bind(
-            this,
-            allProjects,
-            position,
-            "up"
-          )}
+          onClick={changeProjectPosition.bind(this, allProjects, index, "up")}
         >
           up
         </button>
@@ -75,12 +72,7 @@ const Project = ({ index, name }) => {
             index === allProjects.length - 1 || projectPanelOpen ? true : false
           }
           className={styles.upDownBtn}
-          onClick={changeProjectPosition.bind(
-            this,
-            allProjects,
-            position,
-            "down"
-          )}
+          onClick={changeProjectPosition.bind(this, allProjects, index, "down")}
         >
           down
         </button>

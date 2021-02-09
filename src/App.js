@@ -10,15 +10,25 @@ import FormEditProject from "./components/FormEditProject/FormEditProject";
 import { inArrayPositionChange } from "./utils/inArrayPositionChange";
 
 const App = () => {
-  const [allProjects, setAllProjects] = useState([]);
+  const [allProjects, setAllProjects] = useState([
+    { id: 0, name: "00000", description: "000 00 0 00" },
+    { id: 1, name: "11111", description: "11 1111 111" },
+  ]);
+  const [update, setUpdate] = useState(false);
+  const [currentId, setcurrentId] = useState(2);
   const [newProjectPanelOpen, setNewProjectPanelOpen] = useState(false);
 
   const switchNewProjectPanel = () =>
     setNewProjectPanelOpen((prevState) => !prevState);
 
-  const [editProjectPanelOpen, setEditProjectPanelOpen] = useState(false);
+  // const [editProjectPanelOpen, setEditProjectPanelOpen] = useState(false);
   const [projectInEdition, setProjectInEdition] = useState(null);
+  const [projectPanelOpen, setProjectPanelOpen] = useState(false);
 
+  const toogleProjectPanelOpen = (id) => {
+    setProjectPanelOpen(!projectPanelOpen);
+    setProjectInEdition(id);
+  };
   // state = {
   //   allProjects: [],
   //   currentId: 2,
@@ -44,18 +54,17 @@ const App = () => {
   //   this.setState({ allProjects: newProjectBase });
   // };
 
-  // changeProjectPosition = (arr, index, direction) => {
-  //   const newProjectOrder = inArrayPositionChange(arr, index, direction);
-  //   this.setState({ project: newProjectOrder });
-  // };
+  const changeProjectPosition = (arr, index, direction) => {
+    const newProjectOrder = inArrayPositionChange(arr, index, direction);
+    setAllProjects(newProjectOrder);
+    setUpdate(!update);
+  };
 
-  // addNewProject = (item) => {
-  //   item.id = this.state.id;
-  //   this.setState((prevState) => ({
-  //     allProjects: [item].concat(prevState.allProjects),
-  //     currentId: prevState.currentId + 1,
-  //   }));
-  // };
+  const addNewProject = (item) => {
+    item.id = currentId;
+    setAllProjects((prevState) => [item].concat(prevState));
+    setcurrentId((prevState) => prevState + 1);
+  };
 
   // updateProject = (item) => {
   //   const projectBase = this.state.allProjects;
@@ -71,9 +80,18 @@ const App = () => {
   // killStateItem = (item) => this.setState({ [item]: false });
 
   // setValueForStateItem = (item, value) => this.setState({ [item]: value });
-
+  console.log("Initial list: ", allProjects);
   return (
-    <AppContext.Provider value={{ allProjects, switchNewProjectPanel }}>
+    <AppContext.Provider
+      value={{
+        changeProjectPosition,
+        allProjects,
+        switchNewProjectPanel,
+        addNewProject,
+        projectPanelOpen,
+        toogleProjectPanelOpen,
+      }}
+    >
       {newProjectPanelOpen && (
         <Modal
           title="Add new project"
@@ -81,7 +99,7 @@ const App = () => {
           content={() => <FormAddNewProject />}
         />
       )}
-      {editProjectPanelOpen && (
+      {/* {editProjectPanelOpen && (
         <Modal
           title="Edit project"
           panel="editProjectPanelOpen"
@@ -92,12 +110,12 @@ const App = () => {
             />
           )}
         />
-      )}
+      )} */}
       <div style={{ padding: "30px" }}>
         <h1>Todo APP</h1>
         <ButtonHuge onClick={switchNewProjectPanel}>+</ButtonHuge>
         <div style={{ display: "flex" }}>
-          <ProjectList list={allProjects} />
+          <ProjectList />
         </div>
       </div>
     </AppContext.Provider>
