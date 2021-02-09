@@ -8,6 +8,7 @@ import FormAddNewProject from "./components/FormAddNewProject/FormAddNewProject"
 import FormEditProject from "./components/FormEditProject/FormEditProject";
 
 import { inArrayPositionChange } from "./utils/inArrayPositionChange";
+import style from "./app.module.scss";
 
 const App = () => {
   const [allProjects, setAllProjects] = useState([
@@ -99,11 +100,13 @@ const App = () => {
       {editProjectModalOpen && (
         <Modal title="Edit project" content={() => <FormEditProject />} />
       )}
-      <div style={{ padding: "30px" }}>
-        <h1>Todo APP</h1>
-        <ButtonHuge onClick={switchNewProjectPanel}>+</ButtonHuge>
-        <div style={{ display: "flex" }}>
-          <ProjectList />
+      <div className={style.container}>
+        <div>
+          <h1>Todo APP</h1>
+          <ButtonHuge onClick={switchNewProjectPanel}>+</ButtonHuge>
+          <div style={{ display: "flex" }}>
+            <ProjectList />
+          </div>
         </div>
       </div>
     </AppContext.Provider>
