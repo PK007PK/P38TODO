@@ -5,9 +5,7 @@ import AppContext from "../../context";
 const Form = () => {
   const [state, setState] = useState({ name: "", description: "" });
 
-  const { addNewProject, switchStateItem, switchNewProjectPanel } = useContext(
-    AppContext
-  );
+  const { addNewProject, switchNewProjectPanel } = useContext(AppContext);
 
   const handleInputChange = (e) =>
     setState((prevState) => ({
