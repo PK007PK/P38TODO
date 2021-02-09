@@ -11,12 +11,9 @@ import { inArrayPositionChange } from "./utils/inArrayPositionChange";
 import style from "./app.module.scss";
 
 const App = () => {
-  const [allProjects, setAllProjects] = useState([
-    { id: 0, name: "00000", description: "000 00 0 00" },
-    { id: 1, name: "11111", description: "11 1111 111" },
-  ]);
+  const [allProjects, setAllProjects] = useState([]);
   const [update, setUpdate] = useState(false);
-  const [currentId, setcurrentId] = useState(2);
+  const [currentId, setcurrentId] = useState(0);
 
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false);
 

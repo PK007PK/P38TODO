@@ -7,7 +7,7 @@ const ProjectList = () => {
 
   return (
     <div>
-      <h2>Tasks:</h2>
+      <h2>{allProjects.length === 0 ? "Add first task" : "Active tasks:"}</h2>
       <ul style={{ padding: 0 }}>
         {allProjects.map((item) => (
           <Project key={item.id} id={item.id} />
