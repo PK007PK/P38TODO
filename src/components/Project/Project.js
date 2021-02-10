@@ -38,7 +38,7 @@ const Project = ({ id, status }) => {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [timerIsActive, seconds]);
+  }, [timerIsActive, seconds, project]);
 
   const handleOpenCloseProjectCard = (id) => {
     toogleProjectOpen(id);
