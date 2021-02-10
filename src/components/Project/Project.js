@@ -131,6 +131,10 @@ const Project = ({ id }) => {
     </div>
   );
 
+  const timeWhenInactive = !projectIsActive ? (
+    <div className={styles.timeWhenInactive}>{secondsToHms(seconds)}</div>
+  ) : null;
+
   return (
     <li className={projectIsActive ? styles.projectActive : styles.project}>
       <div
@@ -147,6 +151,7 @@ const Project = ({ id }) => {
         {editDelButtonBlock}
         {projectMainInfoPanel}
       </div>
+      {timeWhenInactive}
       {upDownButtonBlock}
     </li>
   );
