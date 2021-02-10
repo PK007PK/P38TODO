@@ -176,6 +176,7 @@ const App = () => {
         toogleProjectOpen,
         toogleProjectStatus,
         updateProject,
+        saveCookies,
       }}
     >
       {newProjectModalOpen && (

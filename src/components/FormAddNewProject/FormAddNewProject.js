@@ -5,7 +5,9 @@ import AppContext from "../../context";
 const Form = () => {
   const [state, setState] = useState({ name: "", description: "", time: 0 });
 
-  const { addNewProject, switchNewProjectPanel } = useContext(AppContext);
+  const { addNewProject, switchNewProjectPanel, saveCookies } = useContext(
+    AppContext
+  );
 
   const handleInputChange = (e) =>
     setState((prevState) => ({
@@ -16,6 +18,7 @@ const Form = () => {
   const handleAddProjectButton = () => {
     addNewProject.bind(this, state)();
     switchNewProjectPanel();
+    saveCookies();
   };
 
   return (
