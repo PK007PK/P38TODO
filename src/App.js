@@ -80,6 +80,7 @@ const App = () => {
   const handleResetCookies = () => {
     setCookies("allProjects", initialActiveBase, { path: "/" });
     setCookies("completedProjects", initialCompletedBase, { path: "/" });
+    window.location.reload(false);
   };
 
   useCallback(saveCookies, [setCookies, allProjects, completedProjects]);
