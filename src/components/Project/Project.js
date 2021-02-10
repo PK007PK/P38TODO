@@ -1,18 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
 import AppContext from "../../context";
 import styles from "./Project.module.scss";
-
-import play from "../../assets/images/play.svg";
-import pause from "../../assets/images/pause.svg";
+import { secondsToHms } from "../../utils/secondsToHms";
 
 const Project = ({ id }) => {
   const {
-    changeProjectPosition,
     allProjects,
-    projectOpen,
+    changeProjectPosition,
     deleteProject,
-    toogleProjectOpen,
+    projectOpen,
     toogleEditProjectModalOpen,
+    toogleProjectOpen,
   } = useContext(AppContext);
 
   const projectIndex = allProjects.findIndex(function (item) {
@@ -24,6 +22,7 @@ const Project = ({ id }) => {
   const [projectIsActive, setProjectIsActive] = useState(false);
   const [timerIsActive, setTimerIsActive] = useState(false);
   const [seconds, setSeconds] = useState(project.time);
+  const [formatedSeconds, setformatedSeconds] = useState(null);
 
   useEffect(() => {
     let interval = null;
@@ -82,6 +81,10 @@ const Project = ({ id }) => {
     </div>
   ) : null;
 
+  const Clock = () => {
+    return <div className={styles.counter}>{secondsToHms(seconds)}</div>;
+  };
+
   const projectMainInfoPanel = projectIsActive ? (
     <div className={styles.projectMainInfoPanel}>
       <div className={styles.timeTrackBlock}>
@@ -91,7 +94,7 @@ const Project = ({ id }) => {
         >
           <i className={timerIsActive ? styles.pause : styles.play} />
         </button>
-        <div className={styles.counter}>{seconds}</div>
+        <Clock />
       </div>
       <div>{project.description}</div>
     </div>

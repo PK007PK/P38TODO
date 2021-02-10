@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AppContext from "./context";
 
 import ButtonHuge from "../src/components/ButtonHuge/ButtonHuge";
@@ -8,6 +8,7 @@ import FormAddNewProject from "./components/FormAddNewProject/FormAddNewProject"
 import FormEditProject from "./components/FormEditProject/FormEditProject";
 
 import { inArrayPositionChange } from "./utils/inArrayPositionChange";
+
 import style from "./app.module.scss";
 
 const App = () => {
@@ -92,18 +93,18 @@ const App = () => {
   return (
     <AppContext.Provider
       value={{
+        addNewProject,
         allProjects,
         changeProjectPosition,
-        addNewProject,
+        closeModals,
         deleteProject,
-        projectOpen,
         projectInEdition,
+        projectOpen,
         setProjectInEdition,
         switchNewProjectPanel,
+        toogleEditProjectModalOpen,
         toogleProjectOpen,
         updateProject,
-        toogleEditProjectModalOpen,
-        closeModals,
       }}
     >
       {newProjectModalOpen && (
