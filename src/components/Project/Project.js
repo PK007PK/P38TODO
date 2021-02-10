@@ -62,10 +62,30 @@ const Project = ({ id, status }) => {
 
   const editDelButtonBlock = projectIsActive ? (
     <div className={styles.editDelButtonBlock}>
-      <button className={styles.upDownBtn} onClick={handleOpenEditProjectModal}>
+      <button
+        className={styles.upDownBtn}
+        onClick={handleOpenEditProjectModal}
+        style={
+          status === "completed"
+            ? {
+                backgroundColor: "lightgreen",
+              }
+            : null
+        }
+      >
         Edit
       </button>
-      <button className={styles.upDownBtn} onClick={handleDeleteProject}>
+      <button
+        className={styles.upDownBtn}
+        onClick={handleDeleteProject}
+        style={
+          status === "completed"
+            ? {
+                backgroundColor: "lightgreen",
+              }
+            : null
+        }
+      >
         Del
       </button>
     </div>
@@ -74,6 +94,13 @@ const Project = ({ id, status }) => {
   const closeButtonBlock = projectIsActive ? (
     <div className={styles.closeButtonBlock}>
       <button
+        style={
+          status === "completed"
+            ? {
+                backgroundColor: "lightgreen",
+              }
+            : null
+        }
         className={styles.closeBtn}
         onClick={() => {
           handleOpenCloseProjectCard();
@@ -109,6 +136,13 @@ const Project = ({ id, status }) => {
   const upDownButtonBlock = !projectIsActive ? (
     <div className={styles.upDownBlock}>
       <button
+        style={
+          status === "completed"
+            ? {
+                backgroundColor: "lightgreen",
+              }
+            : null
+        }
         disabled={projectIndex === 0 || projectOpen ? true : false}
         className={styles.upDownBtn}
         onClick={changeProjectPosition.bind(
@@ -121,6 +155,13 @@ const Project = ({ id, status }) => {
         up
       </button>
       <button
+        style={
+          status === "completed"
+            ? {
+                backgroundColor: "lightgreen",
+              }
+            : null
+        }
         disabled={
           projectIndex === projectBase.length - 1 || projectOpen ? true : false
         }
@@ -138,17 +179,47 @@ const Project = ({ id, status }) => {
   ) : null;
 
   const timeWhenInactive = !projectIsActive ? (
-    <div className={styles.timeWhenInactive}>{secondsToHms(seconds)}</div>
+    <div
+      className={styles.timeWhenInactive}
+      style={
+        status === "completed"
+          ? {
+              backgroundColor: "lightgreen",
+            }
+          : null
+      }
+    >
+      {secondsToHms(seconds)}
+    </div>
   ) : null;
 
   const finishButton = projectIsActive ? (
-    <button onClick={handleProjectTransfer} className={styles.finishButton}>
+    <button
+      onClick={handleProjectTransfer}
+      className={styles.finishButton}
+      style={
+        status === "completed"
+          ? {
+              backgroundColor: "lightgreen",
+            }
+          : null
+      }
+    >
       {status === "active" ? "Mark as completed" : "Back to active"}
     </button>
   ) : null;
 
   return (
-    <li className={projectIsActive ? styles.projectActive : styles.project}>
+    <li
+      className={projectIsActive ? styles.projectActive : styles.project}
+      style={
+        status === "completed"
+          ? {
+              backgroundColor: "lightgreen",
+            }
+          : null
+      }
+    >
       <div
         className={styles.mainInfo}
         style={!projectIsActive && projectOpen ? { opacity: 0.3 } : null}
@@ -157,7 +228,18 @@ const Project = ({ id, status }) => {
         }
       >
         <div className={styles.nameBlock}>
-          <h3 className={styles.title}>{project.name}</h3>
+          <h3
+            className={styles.title}
+            style={
+              status === "completed"
+                ? {
+                    textDecoration: "line-through",
+                  }
+                : null
+            }
+          >
+            {projectIsActive ? project.name : project.name.slice(0, 60)}
+          </h3>
         </div>
         {projectMainInfoPanel}
         {closeButtonBlock}

@@ -9,13 +9,14 @@ import FormEditProject from "./components/FormEditProject/FormEditProject";
 
 import { inArrayPositionChange } from "./utils/inArrayPositionChange";
 
-import style from "./app.module.scss";
+import styles from "./app.module.scss";
 
 const App = () => {
   const [allProjects, setAllProjects] = useState([
     {
       id: 0,
-      name: "Truth deceptions snare endless inexpedient",
+      name:
+        "Truth deceptions snare endless inexpedient Truth deceptions snare endless inexpedient",
       description:
         "Battle hatred superiority victorious gains suicide reason society. Hope self disgust derive convictions victorious ascetic. Battle good evil self justice.",
       time: 65,
@@ -31,21 +32,23 @@ const App = () => {
   const [completedProjects, setCompletedProjects] = useState([
     {
       id: 2,
-      name: "Tasdasd",
+      name: "Merciful decieve faith free decrepit. Dead merciful play",
       description:
-        "asd asdas dasd society. Hope self disgust derive convictions victorious ascetic. Battle good evil self justice.",
+        "Truth christian will law insofar enlightenment snare dead right ultimate. Truth ultimate ocean overcome self philosophy war",
       time: 165,
     },
     {
       id: 3,
-      name: "asasassa",
+      name: "Right convictions justice evil hope of decrepit pious will",
       description:
-        "333333333333333333333 convictions victorious ascetic. Battle good evil self justice.",
+        "Eternal-return moral superiority christian ocean enlightenment god zarathustra endless prejudice marvelous. Contradict of ideal self christian pinnacle ideal moral.",
       time: 165,
     },
   ]);
   const [update, setUpdate] = useState(false);
-  const [currentId, setcurrentId] = useState(2);
+  const [currentId, setcurrentId] = useState(
+    allProjects.length + completedProjects.length
+  );
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false);
   const [projectInEdition, setProjectInEdition] = useState(null);
   const [projectInEditionStatus, setProjectInEditionStatus] = useState(null);
@@ -157,13 +160,13 @@ const App = () => {
       {editProjectModalOpen && (
         <Modal title="Edit project" content={() => <FormEditProject />} />
       )}
-      <div className={style.container}>
+      <div className={styles.container}>
         <div>
           <h1>Todo APP</h1>
           <ButtonHuge onClick={switchNewProjectPanel}>+</ButtonHuge>
-          <div style={{ display: "flex" }}>
+          <div className={styles.lists} style={{ display: "flex" }}>
             <ProjectList list={allProjects} status="active" />
-            <ProjectList list={completedProjects} status="inactive" />
+            <ProjectList list={completedProjects} status="completed" />
           </div>
         </div>
       </div>
