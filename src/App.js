@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useCookies } from "react-cookie";
 import AppContext from "./context";
 
@@ -71,6 +71,8 @@ const App = () => {
     setCookies("allProjects", allProjects, { path: "/" });
     setCookies("completedProjects", completedProjects, { path: "/" });
   };
+
+  useCallback(saveCookies, [setCookies, allProjects, completedProjects]);
 
   const switchNewProjectPanel = () =>
     setNewProjectModalOpen((prevState) => !prevState);
