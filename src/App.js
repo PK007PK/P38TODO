@@ -191,6 +191,7 @@ const App = () => {
             <ProjectList list={completedProjects} status="completed" />
           </div>
         </div>
+        Data stored in cookies
       </div>
     </AppContext.Provider>
   );

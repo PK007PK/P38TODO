@@ -1,10 +1,13 @@
 .container {
     padding: 50px 15px 0 15px;
-    min-height: 100vh;
+    min-height: 90vh;
     // background-image: url('./assets/images/moon.jpg');
     // background-repeat: no-repeat;
     // background-size: cover;
-    background-color:darkgray
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .lists {
