@@ -83,6 +83,12 @@ const App = () => {
     window.location.reload(false);
   };
 
+  const handleResetClear = () => {
+    setCookies("allProjects", [], { path: "/" });
+    setCookies("completedProjects", [], { path: "/" });
+    window.location.reload(false);
+  };
+
   const switchNewProjectPanel = () =>
     setNewProjectModalOpen((prevState) => !prevState);
 
@@ -121,16 +127,17 @@ const App = () => {
 
   const updateProject = (item, status) => {
     const selectedProjectBase =
-      status === "active" ? allProjects : completedProjects;
+      projectInEditionStatus === "active" ? allProjects : completedProjects;
+    console.log(selectedProjectBase);
     const id = item.id;
     const index = selectedProjectBase.findIndex(function (item) {
       return item.id === id;
     });
     const updatedProjectBase = selectedProjectBase;
     updatedProjectBase[index] = item;
-    status === "active"
-      ? setAllProjects(updatedProjectBase)
-      : setCompletedProjects(updatedProjectBase);
+    projectInEditionStatus === "active" && setAllProjects(updatedProjectBase);
+    projectInEditionStatus === "completed" &&
+      setCompletedProjects(updatedProjectBase);
     saveCookies();
   };
 
@@ -207,7 +214,8 @@ const App = () => {
         </div>
         <div>
           Data stored in cookies{" "}
-          <button onClick={handleResetCookies}>Reset cookies</button>
+          <button onClick={handleResetCookies}>Reset to default</button>
+          <button onClick={handleResetClear}>Clear</button>
         </div>
       </div>
     </AppContext.Provider>
