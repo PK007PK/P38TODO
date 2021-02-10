@@ -3,13 +3,23 @@ import style from "./FormEditProject.module.scss";
 import AppContext from "../../context";
 
 const FormEditProject = () => {
-  const { allProjects, projectInEdition } = useContext(AppContext);
+  const {
+    allProjects,
+    projectInEdition,
+    completedProjects,
+    projectInEditionStatus,
+    updateProject,
+    closeModals,
+  } = useContext(AppContext);
 
-  const project = allProjects.find((item) => item.id === projectInEdition);
+  const selectedProjectBase =
+    projectInEditionStatus === "active" ? allProjects : completedProjects;
+
+  const project = selectedProjectBase.find(
+    (item) => item.id === projectInEdition
+  );
 
   const [state, setState] = useState(project);
-
-  const { updateProject, closeModals } = useContext(AppContext);
 
   const handleInputChange = (e) =>
     setState((prevState) => ({
@@ -20,7 +30,6 @@ const FormEditProject = () => {
   const handleClick = () => {
     updateProject.bind(this, state)();
     closeModals();
-    // switchStateItem.bind(this, "editProjectPanelOpen")();
   };
 
   return (

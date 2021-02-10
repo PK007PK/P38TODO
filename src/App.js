@@ -28,27 +28,42 @@ const App = () => {
       time: 22,
     },
   ]);
+  const [completedProjects, setCompletedProjects] = useState([
+    {
+      id: 2,
+      name: "Tasdasd",
+      description:
+        "asd asdas dasd society. Hope self disgust derive convictions victorious ascetic. Battle good evil self justice.",
+      time: 165,
+    },
+    {
+      id: 3,
+      name: "asasassa",
+      description:
+        "333333333333333333333 convictions victorious ascetic. Battle good evil self justice.",
+      time: 165,
+    },
+  ]);
   const [update, setUpdate] = useState(false);
   const [currentId, setcurrentId] = useState(2);
-
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false);
+  const [projectInEdition, setProjectInEdition] = useState(null);
+  const [projectInEditionStatus, setProjectInEditionStatus] = useState(null);
+  const [projectOpen, setProjectOpen] = useState(false);
+  const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
 
   const switchNewProjectPanel = () =>
     setNewProjectModalOpen((prevState) => !prevState);
-
-  const [projectInEdition, setProjectInEdition] = useState(null);
-  const [projectOpen, setProjectOpen] = useState(false);
 
   const toogleProjectOpen = (id) => {
     setProjectOpen(!projectOpen);
     setProjectInEdition(id);
   };
 
-  const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
-
-  const toogleEditProjectModalOpen = (id) => {
+  const toogleEditProjectModalOpen = (id, status) => {
     setEditProjectModalOpen(!editProjectModalOpen);
     setProjectInEdition(id);
+    setProjectInEditionStatus(status);
   };
 
   const closeModals = () => {
@@ -59,7 +74,9 @@ const App = () => {
 
   const changeProjectPosition = (arr, index, direction) => {
     const newProjectOrder = inArrayPositionChange(arr, index, direction);
-    setAllProjects(newProjectOrder);
+    arr === allProjects
+      ? setAllProjects(newProjectOrder)
+      : setCompletedProjects(newProjectOrder);
     setUpdate(!update);
   };
 
@@ -69,25 +86,49 @@ const App = () => {
     setcurrentId((prevState) => prevState + 1);
   };
 
-  const updateProject = (item) => {
+  const updateProject = (item, status) => {
+    const selectedProjectBase =
+      status === "active" ? allProjects : completedProjects;
     const id = item.id;
-    const index = allProjects.findIndex(function (item) {
+    const index = selectedProjectBase.findIndex(function (item) {
       return item.id === id;
     });
-    const updatedProjectBase = allProjects;
+    const updatedProjectBase = selectedProjectBase;
     updatedProjectBase[index] = item;
-    setAllProjects(updatedProjectBase);
+    status === "active"
+      ? setAllProjects(updatedProjectBase)
+      : setCompletedProjects(updatedProjectBase);
   };
 
-  const deleteProject = (id) => {
-    const newProjectBase = allProjects;
-    const index = allProjects.findIndex(function (item) {
+  const deleteProject = (id, status) => {
+    const selectedProjectBase =
+      status === "active" ? allProjects : completedProjects;
+
+    const newProjectBase = selectedProjectBase;
+    const index = selectedProjectBase.findIndex(function (item) {
       return item.id === id;
     });
     newProjectBase.splice(index, 1);
-    setAllProjects(newProjectBase);
+    status === "active"
+      ? setAllProjects(newProjectBase)
+      : setCompletedProjects(newProjectBase);
     setUpdate(!update);
     setProjectOpen(false);
+  };
+
+  const toogleProjectStatus = (id, item, status) => {
+    const selectedProjectBase =
+      status === "active" ? allProjects : completedProjects;
+    const index = selectedProjectBase.findIndex(function (item) {
+      return item.id === id;
+    });
+    const projectInTransfer = selectedProjectBase[index];
+    deleteProject(id, status);
+    status === "active"
+      ? setCompletedProjects((prevState) =>
+          [projectInTransfer].concat(prevState)
+        )
+      : setAllProjects((prevState) => [projectInTransfer].concat(prevState));
   };
 
   return (
@@ -97,13 +138,16 @@ const App = () => {
         allProjects,
         changeProjectPosition,
         closeModals,
+        completedProjects,
         deleteProject,
         projectInEdition,
+        projectInEditionStatus,
         projectOpen,
         setProjectInEdition,
         switchNewProjectPanel,
         toogleEditProjectModalOpen,
         toogleProjectOpen,
+        toogleProjectStatus,
         updateProject,
       }}
     >
@@ -118,7 +162,8 @@ const App = () => {
           <h1>Todo APP</h1>
           <ButtonHuge onClick={switchNewProjectPanel}>+</ButtonHuge>
           <div style={{ display: "flex" }}>
-            <ProjectList />
+            <ProjectList list={allProjects} status="active" />
+            <ProjectList list={completedProjects} status="inactive" />
           </div>
         </div>
       </div>

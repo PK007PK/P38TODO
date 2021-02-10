@@ -3,26 +3,29 @@ import AppContext from "../../context";
 import styles from "./Project.module.scss";
 import { secondsToHms } from "../../utils/secondsToHms";
 
-const Project = ({ id }) => {
+const Project = ({ id, status }) => {
   const {
     allProjects,
     changeProjectPosition,
+    completedProjects,
     deleteProject,
     projectOpen,
     toogleEditProjectModalOpen,
     toogleProjectOpen,
+    toogleProjectStatus,
   } = useContext(AppContext);
 
-  const projectIndex = allProjects.findIndex(function (item) {
+  const projectBase = status === "active" ? allProjects : completedProjects;
+
+  const projectIndex = projectBase.findIndex(function (item) {
     return item.id === id;
   });
 
-  const project = allProjects.find((item) => item.id === id);
+  const project = projectBase.find((item) => item.id === id);
 
   const [projectIsActive, setProjectIsActive] = useState(false);
   const [timerIsActive, setTimerIsActive] = useState(false);
   const [seconds, setSeconds] = useState(project.time);
-  const [formatedSeconds, setformatedSeconds] = useState(null);
 
   useEffect(() => {
     let interval = null;
@@ -30,16 +33,12 @@ const Project = ({ id }) => {
       interval = setInterval(() => {
         setSeconds((seconds) => seconds + 1);
       }, 1000);
+      project.time = seconds;
     } else if (!timerIsActive && seconds !== 0) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
   }, [timerIsActive, seconds]);
-
-  // wywalić jsxy do osobnych komponentów ??
-  // zmienić nazwy funkcji - to co obrabia inną funkcję to handle
-  // poukładać hooki razem
-  // dostosować nazwy do aktualnej struktury komponentów
 
   const handleOpenCloseProjectCard = (id) => {
     toogleProjectOpen(id);
@@ -48,11 +47,16 @@ const Project = ({ id }) => {
 
   const handleOpenEditProjectModal = () => {
     setProjectIsActive(false);
-    toogleEditProjectModalOpen(id);
+    toogleEditProjectModalOpen(id, status);
   };
 
   const handleDeleteProject = () => {
-    deleteProject(id);
+    deleteProject(id, status);
+    setProjectIsActive(!projectIsActive);
+  };
+
+  const handleProjectTransfer = () => {
+    toogleProjectStatus(id, project, status);
     setProjectIsActive(!projectIsActive);
   };
 
@@ -87,27 +91,29 @@ const Project = ({ id }) => {
 
   const projectMainInfoPanel = projectIsActive ? (
     <div className={styles.projectMainInfoPanel}>
-      <div className={styles.timeTrackBlock}>
-        <button
-          onClick={() => setTimerIsActive(!timerIsActive)}
-          className={styles.timeControlBtn}
-        >
-          <i className={timerIsActive ? styles.pause : styles.play} />
-        </button>
-        <Clock />
-      </div>
+      {status === "active" ? (
+        <div className={styles.timeTrackBlock}>
+          <button
+            onClick={() => setTimerIsActive(!timerIsActive)}
+            className={styles.timeControlBtn}
+          >
+            <i className={timerIsActive ? styles.pause : styles.play} />
+          </button>
+          <Clock />
+        </div>
+      ) : null}
       <div>{project.description}</div>
     </div>
   ) : null;
 
-  const upDownButtonBlock = (
+  const upDownButtonBlock = !projectIsActive ? (
     <div className={styles.upDownBlock}>
       <button
         disabled={projectIndex === 0 || projectOpen ? true : false}
         className={styles.upDownBtn}
         onClick={changeProjectPosition.bind(
           this,
-          allProjects,
+          projectBase,
           projectIndex,
           "up"
         )}
@@ -116,12 +122,12 @@ const Project = ({ id }) => {
       </button>
       <button
         disabled={
-          projectIndex === allProjects.length - 1 || projectOpen ? true : false
+          projectIndex === projectBase.length - 1 || projectOpen ? true : false
         }
         className={styles.upDownBtn}
         onClick={changeProjectPosition.bind(
           this,
-          allProjects,
+          projectBase,
           projectIndex,
           "down"
         )}
@@ -129,10 +135,16 @@ const Project = ({ id }) => {
         down
       </button>
     </div>
-  );
+  ) : null;
 
   const timeWhenInactive = !projectIsActive ? (
     <div className={styles.timeWhenInactive}>{secondsToHms(seconds)}</div>
+  ) : null;
+
+  const finishButton = projectIsActive ? (
+    <button onClick={handleProjectTransfer} className={styles.finishButton}>
+      {status === "active" ? "Mark as completed" : "Back to active"}
+    </button>
   ) : null;
 
   return (
@@ -147,12 +159,13 @@ const Project = ({ id }) => {
         <div className={styles.nameBlock}>
           <h3 className={styles.title}>{project.name}</h3>
         </div>
+        {projectMainInfoPanel}
         {closeButtonBlock}
         {editDelButtonBlock}
-        {projectMainInfoPanel}
       </div>
       {timeWhenInactive}
       {upDownButtonBlock}
+      {finishButton}
     </li>
   );
 };
