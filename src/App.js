@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppContext from "./context";
 
 import ButtonHuge from "../src/components/ButtonHuge/ButtonHuge";
@@ -17,12 +17,14 @@ const App = () => {
       name: "Truth deceptions snare endless inexpedient",
       description:
         "Battle hatred superiority victorious gains suicide reason society. Hope self disgust derive convictions victorious ascetic. Battle good evil self justice.",
+      time: 65,
     },
     {
       id: 1,
       name: "Holiest of contradict spirit dead",
       description:
         "Self burying love passion morality justice morality. Passion ocean oneself burying pious pious victorious inexpedient value will. Fearful",
+      time: 22,
     },
   ]);
   const [update, setUpdate] = useState(false);

@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import AppContext from "../../context";
 import styles from "./Project.module.scss";
 
-const Project = ({ id }) => {
-  const [panelIsActive, setPanelIsActive] = useState(false);
+import play from "../../assets/images/play.svg";
+import pause from "../../assets/images/pause.svg";
 
+const Project = ({ id }) => {
   const {
     changeProjectPosition,
     allProjects,
@@ -14,30 +15,51 @@ const Project = ({ id }) => {
     toogleEditProjectModalOpen,
   } = useContext(AppContext);
 
-  const index = allProjects.findIndex(function (item) {
+  const projectIndex = allProjects.findIndex(function (item) {
     return item.id === id;
   });
 
   const project = allProjects.find((item) => item.id === id);
 
-  const openCloseProjectCard = (id) => {
+  const [projectIsActive, setProjectIsActive] = useState(false);
+  const [timerIsActive, setTimerIsActive] = useState(false);
+  const [seconds, setSeconds] = useState(project.time);
+
+  useEffect(() => {
+    let interval = null;
+    if (timerIsActive) {
+      interval = setInterval(() => {
+        setSeconds((seconds) => seconds + 1);
+      }, 1000);
+    } else if (!timerIsActive && seconds !== 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [timerIsActive, seconds]);
+
+  // wywalić jsxy do osobnych komponentów ??
+  // zmienić nazwy funkcji - to co obrabia inną funkcję to handle
+  // poukładać hooki razem
+  // dostosować nazwy do aktualnej struktury komponentów
+
+  const handleOpenCloseProjectCard = (id) => {
     toogleProjectOpen(id);
-    setPanelIsActive(!panelIsActive);
+    setProjectIsActive(!projectIsActive);
   };
 
-  const openEditProjectPanel = () => {
-    setPanelIsActive(false);
-    toogleEditProjectModalOpen.bind(this, id)();
+  const handleOpenEditProjectModal = () => {
+    setProjectIsActive(false);
+    toogleEditProjectModalOpen(id);
   };
 
   const handleDeleteProject = () => {
-    deleteProject.bind(this, id)();
-    setPanelIsActive(!panelIsActive);
+    deleteProject(id);
+    setProjectIsActive(!projectIsActive);
   };
 
-  const mainControlButtons = panelIsActive ? (
-    <div className={styles.mainControlBlock}>
-      <button className={styles.upDownBtn} onClick={openEditProjectPanel}>
+  const editDelButtonBlock = projectIsActive ? (
+    <div className={styles.editDelButtonBlock}>
+      <button className={styles.upDownBtn} onClick={handleOpenEditProjectModal}>
         Edit
       </button>
       <button className={styles.upDownBtn} onClick={handleDeleteProject}>
@@ -46,50 +68,83 @@ const Project = ({ id }) => {
     </div>
   ) : null;
 
-  const closeButtonBlock = panelIsActive ? (
+  const closeButtonBlock = projectIsActive ? (
     <div className={styles.closeButtonBlock}>
-      <button className={styles.closeBtn} onClick={openCloseProjectCard}>
+      <button
+        className={styles.closeBtn}
+        onClick={() => {
+          handleOpenCloseProjectCard();
+          setTimerIsActive(false);
+        }}
+      >
         Close
       </button>
     </div>
   ) : null;
 
-  const projectDescriptionPanel = panelIsActive ? (
-    <div className={styles.detailsBlock}>{project.description}</div>
+  const projectMainInfoPanel = projectIsActive ? (
+    <div className={styles.projectMainInfoPanel}>
+      <div className={styles.timeTrackBlock}>
+        <button
+          onClick={() => setTimerIsActive(!timerIsActive)}
+          className={styles.timeControlBtn}
+        >
+          <i className={timerIsActive ? styles.pause : styles.play} />
+        </button>
+        <div className={styles.counter}>{seconds}</div>
+      </div>
+      <div>{project.description}</div>
+    </div>
   ) : null;
 
+  const upDownButtonBlock = (
+    <div className={styles.upDownBlock}>
+      <button
+        disabled={projectIndex === 0 || projectOpen ? true : false}
+        className={styles.upDownBtn}
+        onClick={changeProjectPosition.bind(
+          this,
+          allProjects,
+          projectIndex,
+          "up"
+        )}
+      >
+        up
+      </button>
+      <button
+        disabled={
+          projectIndex === allProjects.length - 1 || projectOpen ? true : false
+        }
+        className={styles.upDownBtn}
+        onClick={changeProjectPosition.bind(
+          this,
+          allProjects,
+          projectIndex,
+          "down"
+        )}
+      >
+        down
+      </button>
+    </div>
+  );
+
   return (
-    <li className={panelIsActive ? styles.projectActive : styles.project}>
+    <li className={projectIsActive ? styles.projectActive : styles.project}>
       <div
         className={styles.mainInfo}
-        style={!panelIsActive && projectOpen ? { opacity: 0.3 } : null}
-        onClick={!panelIsActive && !projectOpen ? openCloseProjectCard : null}
+        style={!projectIsActive && projectOpen ? { opacity: 0.3 } : null}
+        onClick={
+          !projectIsActive && !projectOpen ? handleOpenCloseProjectCard : null
+        }
       >
         <div className={styles.nameBlock}>
           <h3 className={styles.title}>{project.name}</h3>
         </div>
         {closeButtonBlock}
-        {mainControlButtons}
-        {projectDescriptionPanel}
+        {editDelButtonBlock}
+        {projectMainInfoPanel}
       </div>
-      <div className={styles.upDownBlock}>
-        <button
-          disabled={index === 0 || projectOpen ? true : false}
-          className={styles.upDownBtn}
-          onClick={changeProjectPosition.bind(this, allProjects, index, "up")}
-        >
-          up
-        </button>
-        <button
-          disabled={
-            index === allProjects.length - 1 || projectOpen ? true : false
-          }
-          className={styles.upDownBtn}
-          onClick={changeProjectPosition.bind(this, allProjects, index, "down")}
-        >
-          down
-        </button>
-      </div>
+      {upDownButtonBlock}
     </li>
   );
 };

@@ -3,7 +3,7 @@ import style from "./FormAddNewProject.module.scss";
 import AppContext from "../../context";
 
 const Form = () => {
-  const [state, setState] = useState({ name: "", description: "" });
+  const [state, setState] = useState({ name: "", description: "", time: 0 });
 
   const { addNewProject, switchNewProjectPanel } = useContext(AppContext);
 

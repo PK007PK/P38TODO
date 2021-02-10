@@ -3,7 +3,7 @@
     width: 280px;
     color: "blue";
     list-style: none;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     padding: 20px;
     background-color: white;
     box-shadow:  0px 1px 3px 0px rgba(0, 0, 0, 0.2),
@@ -17,7 +17,8 @@
     width: 280px;
     background-color: lightgray; 
     list-style: none;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
+    margin-top: 35px;
     padding: 20px;
     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14),
@@ -48,13 +49,13 @@
     margin: 0;
 }
 
-.detailsBlock {
+.projectMainInfoPanel {
     margin-top: 20px;
     padding-bottom: 30px;
 }
 
 
-.mainControlBlock {
+.editDelButtonBlock {
     position: absolute;
     bottom: -10px;
     left: 10px;
@@ -103,4 +104,51 @@
         border-radius: 0 0 5px 0;
 
     }
+}
+
+.timeTrackBlock {
+    display: flex;
+    justify-content: space-around;
+    margin: 25px 0;
+}
+
+.timeControlBtn {
+width: 45px;
+height: 45px;
+border-radius: 40px;
+border: none;
+display: flex;
+justify-content: center;
+align-items: center;
+box-shadow:  0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+0px 2px 1px -1px rgba(0, 0, 0, 0.12); 
+cursor: pointer;
+}
+
+.play {
+    background-image: url('../../assets/images/play.svg');
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-left: 2px;
+
+}
+
+.pause {
+    background-image: url('../../assets/images/pause.svg');
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+}
+
+.counter {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
 }
