@@ -211,6 +211,9 @@ const Project = ({ id, status }) => {
 
   return (
     <li
+      onClick={
+        !projectIsActive && !projectOpen ? handleOpenCloseProjectCard : null
+      }
       className={projectIsActive ? styles.projectActive : styles.project}
       style={
         status === "completed"
@@ -223,9 +226,6 @@ const Project = ({ id, status }) => {
       <div
         className={styles.mainInfo}
         style={!projectIsActive && projectOpen ? { opacity: 0.3 } : null}
-        onClick={
-          !projectIsActive && !projectOpen ? handleOpenCloseProjectCard : null
-        }
       >
         <div className={styles.nameBlock}>
           <h3
