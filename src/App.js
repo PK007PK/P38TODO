@@ -15,47 +15,52 @@ import styles from "./app.module.scss";
 const App = () => {
   const [cookies, setCookies] = useCookies(["name"]);
 
-  const initialActiveProjects = cookies.allProjects
-    ? cookies.allProjects
-    : [
-        {
-          id: 0,
-          name:
-            "Truth deceptions snare endless inexpedient Truth deceptions snare endless inexpedient",
-          description:
-            "Battle hatred superiority victorious gains suicide reason society. Hope self disgust derive convictions victorious ascetic. Battle good evil self justice.",
-          time: 65,
-        },
-        {
-          id: 1,
-          name: "Holiest of contradict spirit dead",
-          description:
-            "Self burying love passion morality justice morality. Passion ocean oneself burying pious pious victorious inexpedient value will. Fearful",
-          time: 22,
-        },
-      ];
-  const initialCompletedProjects = cookies.completedProjects
-    ? cookies.completedProjects
-    : [
-        {
-          id: 2,
-          name: "Merciful decieve faith free decrepit. Dead merciful play",
-          description:
-            "Truth christian will law insofar enlightenment snare dead right ultimate. Truth ultimate ocean overcome self philosophy war",
-          time: 165,
-        },
-        {
-          id: 3,
-          name: "Right convictions justice evil hope of decrepit pious will",
-          description:
-            "Eternal-return moral superiority christian ocean enlightenment god zarathustra endless prejudice marvelous. Contradict of ideal self christian pinnacle ideal moral.",
-          time: 165,
-        },
-      ];
+  const initialActiveBase = [
+    {
+      id: 0,
+      name:
+        "Truth deceptions snare endless inexpedient Truth deceptions snare endless inexpedient",
+      description:
+        "Battle hatred superiority victorious gains suicide reason society. Hope self disgust derive convictions victorious ascetic. Battle good evil self justice.",
+      time: 65,
+    },
+    {
+      id: 1,
+      name: "Holiest of contradict spirit dead",
+      description:
+        "Self burying love passion morality justice morality. Passion ocean oneself burying pious pious victorious inexpedient value will. Fearful",
+      time: 22,
+    },
+  ];
 
-  const [allProjects, setAllProjects] = useState(initialActiveProjects);
+  const initialCompletedBase = [
+    {
+      id: 0,
+      name:
+        "Truth deceptions snare endless inexpedient Truth deceptions snare endless inexpedient",
+      description:
+        "Battle hatred superiority victorious gains suicide reason society. Hope self disgust derive convictions victorious ascetic. Battle good evil self justice.",
+      time: 65,
+    },
+    {
+      id: 1,
+      name: "Holiest of contradict spirit dead",
+      description:
+        "Self burying love passion morality justice morality. Passion ocean oneself burying pious pious victorious inexpedient value will. Fearful",
+      time: 22,
+    },
+  ];
+
+  const initialActiveProjectsState = cookies.allProjects
+    ? cookies.allProjects
+    : initialActiveBase;
+  const initialCompletedProjectsState = cookies.completedProjects
+    ? cookies.completedProjects
+    : initialCompletedBase;
+
+  const [allProjects, setAllProjects] = useState(initialActiveProjectsState);
   const [completedProjects, setCompletedProjects] = useState(
-    initialCompletedProjects
+    initialCompletedProjectsState
   );
   const [update, setUpdate] = useState(false);
   const [currentId, setcurrentId] = useState(
@@ -70,6 +75,11 @@ const App = () => {
   const saveCookies = () => {
     setCookies("allProjects", allProjects, { path: "/" });
     setCookies("completedProjects", completedProjects, { path: "/" });
+  };
+
+  const handleResetCookies = () => {
+    setCookies("allProjects", initialActiveBase, { path: "/" });
+    setCookies("completedProjects", initialCompletedBase, { path: "/" });
   };
 
   useCallback(saveCookies, [setCookies, allProjects, completedProjects]);
@@ -194,7 +204,10 @@ const App = () => {
             <ProjectList list={completedProjects} status="completed" />
           </div>
         </div>
-        Data stored in cookies
+        <div>
+          Data stored in cookies{" "}
+          <button onClick={handleResetCookies}>Reset cookies</button>
+        </div>
       </div>
     </AppContext.Provider>
   );
