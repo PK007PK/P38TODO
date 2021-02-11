@@ -63,7 +63,7 @@ const Project = ({ id, status }) => {
   const editDelButtonBlock = projectIsActive ? (
     <div className={styles.editDelButtonBlock}>
       <button
-        className={styles.upDownBtn}
+        className={styles.editDelBtn}
         onClick={handleOpenEditProjectModal}
         style={
           status === "completed"
@@ -76,7 +76,7 @@ const Project = ({ id, status }) => {
         Edit
       </button>
       <button
-        className={styles.upDownBtn}
+        className={styles.editDelBtn}
         onClick={handleDeleteProject}
         style={
           status === "completed"
@@ -211,9 +211,6 @@ const Project = ({ id, status }) => {
 
   return (
     <li
-      onClick={
-        !projectIsActive && !projectOpen ? handleOpenCloseProjectCard : null
-      }
       className={projectIsActive ? styles.projectActive : styles.project}
       style={
         status === "completed"
@@ -226,6 +223,9 @@ const Project = ({ id, status }) => {
       <div
         className={styles.mainInfo}
         style={!projectIsActive && projectOpen ? { opacity: 0.3 } : null}
+        onClick={
+          !projectIsActive && !projectOpen ? handleOpenCloseProjectCard : null
+        }
       >
         <div className={styles.nameBlock}>
           <h3
@@ -238,7 +238,7 @@ const Project = ({ id, status }) => {
                 : null
             }
           >
-            {projectIsActive ? project.name : project.name.slice(0, 60)}
+            {projectIsActive ? project.name : project.name.slice(0, 40)}
           </h3>
         </div>
         {projectMainInfoPanel}
