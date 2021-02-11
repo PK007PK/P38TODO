@@ -70,7 +70,9 @@ const Project = ({ id, status }) => {
             ? {
                 backgroundColor: "lightgreen",
               }
-            : null
+            : projectIsActive
+            ? { backgroundColor: "lightgray" }
+            : {}
         }
       >
         Edit
@@ -83,7 +85,9 @@ const Project = ({ id, status }) => {
             ? {
                 backgroundColor: "lightgreen",
               }
-            : null
+            : projectIsActive
+            ? { backgroundColor: "lightgray" }
+            : {}
         }
       >
         Del
@@ -141,7 +145,11 @@ const Project = ({ id, status }) => {
             ? {
                 backgroundColor: "lightgreen",
               }
-            : null
+            : projectIsActive
+            ? {}
+            : {
+                backgroundColor: "white",
+              }
         }
         disabled={projectIndex === 0 || projectOpen ? true : false}
         className={styles.upDownBtn}
@@ -211,40 +219,39 @@ const Project = ({ id, status }) => {
 
   return (
     <li
-      onClick={
-        !projectIsActive && !projectOpen ? handleOpenCloseProjectCard : null
-      }
       className={projectIsActive ? styles.projectActive : styles.project}
       style={
         status === "completed"
-          ? {
-              backgroundColor: "lightgreen",
-            }
-          : null
+          ? projectIsActive
+            ? { backgroundColor: "lightgreen", border: "1px solid red" }
+            : { backgroundColor: "lightgreen" }
+          : projectIsActive
+          ? { border: "1px solid red" }
+          : {}
       }
     >
       <div
-        className={styles.mainInfo}
-        style={!projectIsActive && projectOpen ? { opacity: 0.3 } : null}
+        className={styles.nameBlock}
+        onClick={
+          !projectIsActive && !projectOpen ? handleOpenCloseProjectCard : null
+        }
+        style={
+          status === "completed"
+            ? projectIsActive
+              ? { cursor: "auto" }
+              : { cursor: "pointer" }
+            : projectIsActive
+            ? { cursor: "auto" }
+            : { cursor: "pointer" }
+        }
       >
-        <div className={styles.nameBlock}>
-          <h3
-            className={styles.title}
-            style={
-              status === "completed"
-                ? {
-                    textDecoration: "line-through",
-                  }
-                : null
-            }
-          >
-            {projectIsActive ? project.name : project.name.slice(0, 60)}
-          </h3>
-        </div>
-        {projectMainInfoPanel}
-        {closeButtonBlock}
-        {editDelButtonBlock}
+        <h3 className={styles.title}>
+          {projectIsActive ? project.name : project.name.slice(0, 40)}
+        </h3>
       </div>
+      {projectMainInfoPanel}
+      {closeButtonBlock}
+      {editDelButtonBlock}
       {timeWhenInactive}
       {upDownButtonBlock}
       {finishButton}
