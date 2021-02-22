@@ -14,7 +14,7 @@ import styles from "./app.module.scss";
 
 const App = () => {
   const [cookies, setCookies] = useCookies(["name"]);
-
+  console.log("First cookie", cookies);
   const initialActiveBase = [
     {
       id: 0,
@@ -35,47 +35,54 @@ const App = () => {
 
   const initialCompletedBase = [
     {
-      id: 0,
+      id: 2,
       name:
-        "Truth deceptions snare endless inexpedient Truth deceptions snare endless inexpedient",
+        "Ideal reason suicide grandeur faithful virtues disgust god. Good decieve oneself mountains ocean free selfish.",
       description:
-        "Battle hatred superiority victorious gains suicide reason society. Hope self disgust derive convictions victorious ascetic. Battle good evil self justice.",
-      time: 65,
+        "Ocean noble burying grandeur love. Victorious holiest decieve right disgust battle eternal-return contradict good madness passion derive. Superiority pious law gains selfish burying hatred insofar morality.",
+      time: 165,
     },
     {
-      id: 1,
-      name: "Holiest of contradict spirit dead",
+      id: 3,
+      name:
+        "Eternal-return truth zarathustra joy mountains insofar prejudice passion merciful noble salvation good",
       description:
-        "Self burying love passion morality justice morality. Passion ocean oneself burying pious pious victorious inexpedient value will. Fearful",
-      time: 22,
+        "Hatred overcome ascetic faith madness philosophy against passion horror grandeur war aversion victorious deceptions. Noble prejudice ideal snare depths. Right intentions ocean love eternal-return chaos snare revaluation victorious grandeur faith.",
+      time: 222,
     },
   ];
 
   const initialActiveProjectsState = cookies.allProjects
     ? cookies.allProjects
     : initialActiveBase;
+
   const initialCompletedProjectsState = cookies.completedProjects
     ? cookies.completedProjects
     : initialCompletedBase;
 
   const [allProjects, setAllProjects] = useState(initialActiveProjectsState);
+
   const [completedProjects, setCompletedProjects] = useState(
     initialCompletedProjectsState
   );
+
   const [update, setUpdate] = useState(false);
+
   const [currentId, setcurrentId] = useState(
     allProjects.length + completedProjects.length
   );
+
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false);
+
   const [projectInEdition, setProjectInEdition] = useState(null);
   const [projectInEditionStatus, setProjectInEditionStatus] = useState(null);
   const [projectOpen, setProjectOpen] = useState(false);
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
 
-  // const saveCookies = () => {
-  //   setCookies("allProjects", allProjects, { path: "/" });
-  //   setCookies("completedProjects", completedProjects, { path: "/" });
-  // };
+  const saveCookies = () => {
+    setCookies("allProjects", allProjects, { path: "/" });
+    setCookies("completedProjects", completedProjects, { path: "/" });
+  };
 
   const handleResetCookies = () => {
     setCookies("allProjects", initialActiveBase, { path: "/" });
@@ -115,14 +122,14 @@ const App = () => {
       ? setAllProjects(newProjectOrder)
       : setCompletedProjects(newProjectOrder);
     setUpdate(!update);
-    // saveCookies();
+    saveCookies();
   };
 
   const addNewProject = (item) => {
     item.id = currentId;
     setAllProjects((prevState) => [item].concat(prevState));
     setcurrentId((prevState) => prevState + 1);
-    // saveCookies();
+    saveCookies();
   };
 
   const updateProject = (item, status) => {
@@ -138,7 +145,7 @@ const App = () => {
     projectInEditionStatus === "active" && setAllProjects(updatedProjectBase);
     projectInEditionStatus === "completed" &&
       setCompletedProjects(updatedProjectBase);
-    // saveCookies();
+    saveCookies();
   };
 
   const deleteProject = (id, status) => {
@@ -155,7 +162,7 @@ const App = () => {
       : setCompletedProjects(newProjectBase);
     setUpdate(!update);
     setProjectOpen(false);
-    // saveCookies();
+    saveCookies();
   };
 
   const toogleProjectStatus = (id, item, status) => {
@@ -171,10 +178,10 @@ const App = () => {
           [projectInTransfer].concat(prevState)
         )
       : setAllProjects((prevState) => [projectInTransfer].concat(prevState));
-    // saveCookies();
+    saveCookies();
   };
 
-  // saveCookies();
+  saveCookies();
 
   return (
     <AppContext.Provider
@@ -194,7 +201,7 @@ const App = () => {
         toogleProjectOpen,
         toogleProjectStatus,
         updateProject,
-        // saveCookies,
+        saveCookies,
       }}
     >
       {newProjectModalOpen && (
