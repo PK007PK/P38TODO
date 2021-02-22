@@ -72,10 +72,10 @@ const App = () => {
   const [projectOpen, setProjectOpen] = useState(false);
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
 
-  const saveCookies = () => {
-    setCookies("allProjects", allProjects, { path: "/" });
-    setCookies("completedProjects", completedProjects, { path: "/" });
-  };
+  // const saveCookies = () => {
+  //   setCookies("allProjects", allProjects, { path: "/" });
+  //   setCookies("completedProjects", completedProjects, { path: "/" });
+  // };
 
   const handleResetCookies = () => {
     setCookies("allProjects", initialActiveBase, { path: "/" });
@@ -115,14 +115,14 @@ const App = () => {
       ? setAllProjects(newProjectOrder)
       : setCompletedProjects(newProjectOrder);
     setUpdate(!update);
-    saveCookies();
+    // saveCookies();
   };
 
   const addNewProject = (item) => {
     item.id = currentId;
     setAllProjects((prevState) => [item].concat(prevState));
     setcurrentId((prevState) => prevState + 1);
-    saveCookies();
+    // saveCookies();
   };
 
   const updateProject = (item, status) => {
@@ -138,7 +138,7 @@ const App = () => {
     projectInEditionStatus === "active" && setAllProjects(updatedProjectBase);
     projectInEditionStatus === "completed" &&
       setCompletedProjects(updatedProjectBase);
-    saveCookies();
+    // saveCookies();
   };
 
   const deleteProject = (id, status) => {
@@ -155,7 +155,7 @@ const App = () => {
       : setCompletedProjects(newProjectBase);
     setUpdate(!update);
     setProjectOpen(false);
-    saveCookies();
+    // saveCookies();
   };
 
   const toogleProjectStatus = (id, item, status) => {
@@ -171,10 +171,10 @@ const App = () => {
           [projectInTransfer].concat(prevState)
         )
       : setAllProjects((prevState) => [projectInTransfer].concat(prevState));
-    saveCookies();
+    // saveCookies();
   };
 
-  saveCookies();
+  // saveCookies();
 
   return (
     <AppContext.Provider
@@ -194,7 +194,7 @@ const App = () => {
         toogleProjectOpen,
         toogleProjectStatus,
         updateProject,
-        saveCookies,
+        // saveCookies,
       }}
     >
       {newProjectModalOpen && (
